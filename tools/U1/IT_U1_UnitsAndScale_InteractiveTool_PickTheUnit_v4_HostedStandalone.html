@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pick the Unit — cHemical REaxns</title>
+</head>
+<body style="margin:0; padding:16px; background-color:#F2F2F2;">
+
+<!-- cHemical REaxns · Interactive Tool · Pick the Unit — Measurement Scale Challenge -->
+<!-- Unit 1: Science & Math · Learning Goals U1A-U1H (Measurement, Graphing, Converting Units) -->
+<!-- v4: Standalone hosted version — added Lesson 1: Base Units to header — this Canvas instance strips <script> tags from Pages on save. -->
+<!-- Host this file externally (GitHub Pages, WordPress, etc.) and add it to the Canvas module as an External URL item, -->
+<!-- or embed it via <iframe src="[hosted URL]"> on a Canvas Page. Tables-only / inline-CSS rules kept intact for -->
+<!-- consistency with the cHemical REaxns Canvas HTML standard, even though this copy no longer needs to survive RCE sanitization. -->
+
+<table id="pku-root" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:900px; margin:0 auto; font-family:Arial, sans-serif; background-color:#ffffff;">
+
+  <!-- ══ HEADER ══════════════════════════════════════════════════════ -->
+  <tr>
+    <td bgcolor="#1A2B3C" style="background-color:#1A2B3C; padding:20px 28px; border-top:4px solid #7DC229;">
+      <p style="font-family:Arial, sans-serif; font-size:11px; letter-spacing:1.5px; color:#7DC229; margin:0 0 6px 0;"><b>cHemical REaxns &nbsp;&#183;&nbsp; Unit 1: Science &amp; Math &nbsp;&#183;&nbsp; Lesson 1: Base Units</b></p>
+      <p style="font-family:Arial, sans-serif; font-size:22px; color:#ffffff; margin:0;"><b>Pick the Unit</b></p>
+      <p style="font-family:Arial, sans-serif; font-size:13px; color:#8899AA; margin:6px 0 0 0;">A measurement scale challenge — build intuition for which unit actually fits.</p>
+    </td>
+  </tr>
+
+  <!-- ══ MENU SCREEN ═════════════════════════════════════════════════ -->
+  <tr id="pku-tr-menu">
+    <td bgcolor="#ffffff" style="background-color:#ffffff; padding:28px;">
+      <p style="font-family:Arial, sans-serif; font-size:14px; line-height:1.6; color:#3C4550; margin:0 0 20px 0;">Every measurement needs a unit that matches its scale — a book isn't measured in kilometers, and an elephant isn't measured in milligrams. Choose a level below. Each round gives you a real-world scenario; pick the unit that actually makes sense.</p>
+
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td id="pku-level-easy" tabindex="0" style="cursor:pointer; background-color:#F7F8FA; border:1px solid #E2E8F0; border-left:6px solid #1A73C8; border-radius:6px; padding:16px 18px;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td width="46" style="vertical-align:middle; text-align:center; padding-right:14px; font-size:30px;">&#127793;</td>
+                <td style="vertical-align:middle;">
+                  <p style="font-family:Arial, sans-serif; font-size:15px; color:#1A2B3C; margin:0 0 3px 0;"><b>Easy</b></p>
+                  <p style="font-family:Arial, sans-serif; font-size:12.5px; color:#6A7D8E; margin:0; line-height:1.4;">Everyday objects with clearly different scales — a book, an elephant, a sprint.</p>
+                  <p style="font-family:Arial, sans-serif; font-size:11px; color:#1A73C8; margin:4px 0 0 0;">8 scenarios</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr><td style="height:12px; font-size:1px; line-height:1px;">&nbsp;</td></tr>
+        <tr>
+          <td id="pku-level-medium" tabindex="0" style="cursor:pointer; background-color:#F7F8FA; border:1px solid #E2E8F0; border-left:6px solid #F0A500; border-radius:6px; padding:16px 18px;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td width="46" style="vertical-align:middle; text-align:center; padding-right:14px; font-size:30px;">&#9878;&#65039;</td>
+                <td style="vertical-align:middle;">
+                  <p style="font-family:Arial, sans-serif; font-size:15px; color:#1A2B3C; margin:0 0 3px 0;"><b>Medium</b></p>
+                  <p style="font-family:Arial, sans-serif; font-size:12.5px; color:#6A7D8E; margin:0; line-height:1.4;">Closer judgment calls within the same unit family — paperclip vs. apple vs. textbook.</p>
+                  <p style="font-family:Arial, sans-serif; font-size:11px; color:#1A73C8; margin:4px 0 0 0;">8 scenarios</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr><td style="height:12px; font-size:1px; line-height:1px;">&nbsp;</td></tr>
+        <tr>
+          <td id="pku-level-hard" tabindex="0" style="cursor:pointer; background-color:#F7F8FA; border:1px solid #E2E8F0; border-left:6px solid #1A6B72; border-radius:6px; padding:16px 18px;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td width="46" style="vertical-align:middle; text-align:center; padding-right:14px; font-size:30px;">&#128300;</td>
+                <td style="vertical-align:middle;">
+                  <p style="font-family:Arial, sans-serif; font-size:15px; color:#1A2B3C; margin:0 0 3px 0;"><b>Hard</b></p>
+                  <p style="font-family:Arial, sans-serif; font-size:12.5px; color:#6A7D8E; margin:0; line-height:1.4;">Prefix precision — medicine doses and small volumes where mg, g, and kg (or mL and L) really matter.</p>
+                  <p style="font-family:Arial, sans-serif; font-size:11px; color:#1A73C8; margin:4px 0 0 0;">8 scenarios</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- ══ ROUND SCREEN ════════════════════════════════════════════════ -->
+  <tr id="pku-tr-round" style="display:none;">
+    <td bgcolor="#ffffff" style="background-color:#ffffff; padding:28px;">
+
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:18px;">
+        <tr>
+          <td style="font-family:Arial, sans-serif; font-size:12px; color:#6A7D8E; white-space:nowrap;" id="pku-progress-label">Question 1 of 8</td>
+          <td style="padding:0 12px;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td bgcolor="#E2E8F0" style="background-color:#E2E8F0; border-radius:4px; padding:0;">
+                  <div id="pku-progress-fill" style="height:8px; width:0%; background-color:#7DC229; border-radius:4px; font-size:1px; line-height:1px;">&nbsp;</div>
+                </td>
+              </tr>
+            </table>
+          </td>
+          <td style="white-space:nowrap;">
+            <span id="pku-score-pill" style="font-family:Arial, sans-serif; font-size:11px; letter-spacing:0.5px; color:#ffffff; background-color:#1A73C8; padding:4px 10px; border-radius:20px;"><b>SCORE: 0</b></span>
+          </td>
+        </tr>
+      </table>
+
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#F0F6FF" style="background-color:#F0F6FF; border:1px solid #C8DEFF; border-radius:8px;">
+        <tr>
+          <td style="padding:22px;">
+            <span id="pku-scenario-icon" style="font-size:34px; display:block; margin-bottom:10px;">&#128207;</span>
+            <p id="pku-scenario-label" style="font-family:Arial, sans-serif; font-size:11px; letter-spacing:1px; color:#1A73C8; margin:0 0 8px 0;"><b>SCENARIO</b></p>
+            <p id="pku-scenario-text" style="font-family:Arial, sans-serif; font-size:16.5px; line-height:1.5; color:#1A2B3C; margin:0 0 20px 0;">Loading...</p>
+
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" id="pku-options-table"><tr id="pku-options-row"></tr></table>
+
+            <div id="pku-feedback" style="display:none; margin-top:16px; padding:14px 16px; border-radius:6px; font-family:Arial, sans-serif; font-size:13.5px; line-height:1.6;">
+              <p id="pku-feedback-head" style="margin:0 0 4px 0;"><b>Correct!</b></p>
+              <p id="pku-feedback-body" style="margin:0;"></p>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:18px;">
+        <tr>
+          <td style="text-align:left;">
+            <button id="pku-btn-menu" style="cursor:pointer; font-family:Arial, sans-serif; font-size:13px; color:#1A73C8; background-color:#ffffff; border:1px solid #1A73C8; border-radius:5px; padding:10px 20px;">Back to menu</button>
+          </td>
+          <td style="text-align:right;">
+            <button id="pku-btn-next" style="display:none; cursor:pointer; font-family:Arial, sans-serif; font-size:13px; color:#ffffff; background-color:#1A73C8; border:none; border-radius:5px; padding:10px 20px;">Next question &#9654;</button>
+          </td>
+        </tr>
+      </table>
+
+    </td>
+  </tr>
+
+  <!-- ══ RESULTS SCREEN ══════════════════════════════════════════════ -->
+  <tr id="pku-tr-results" style="display:none;">
+    <td bgcolor="#ffffff" style="background-color:#ffffff; padding:28px;">
+      <p id="pku-result-level-label" style="font-family:Arial, sans-serif; font-size:13px; letter-spacing:0.5px; color:#6A7D8E; text-align:center; margin:0 0 4px 0;"><b>EASY — COMPLETE</b></p>
+      <p id="pku-result-score" style="font-family:Arial, sans-serif; font-size:44px; color:#1A73C8; text-align:center; margin:4px 0 12px 0;"><b>0/8</b></p>
+      <p id="pku-result-msg" style="font-family:Arial, sans-serif; font-size:14px; color:#3C4550; text-align:center; margin:0 0 22px 0;"></p>
+
+      <div id="pku-result-review"></div>
+
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:18px;">
+        <tr>
+          <td width="50%" style="text-align:right; padding-right:6px;">
+            <button id="pku-btn-retry" style="cursor:pointer; font-family:Arial, sans-serif; font-size:13px; color:#1A73C8; background-color:#ffffff; border:1px solid #1A73C8; border-radius:5px; padding:10px 20px;">Retry this level</button>
+          </td>
+          <td width="50%" style="text-align:left; padding-left:6px;">
+            <button id="pku-btn-back-menu" style="cursor:pointer; font-family:Arial, sans-serif; font-size:13px; color:#ffffff; background-color:#1A73C8; border:none; border-radius:5px; padding:10px 20px;">Choose another level</button>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- ══ FOOTER ══════════════════════════════════════════════════════ -->
+  <tr>
+    <td bgcolor="#111C26" style="background-color:#111C26; padding:10px 28px; text-align:center;">
+      <span style="font-family:Arial, sans-serif; font-size:10.5px; letter-spacing:1px; color:#6A7D8E;">cHemical REaxns &nbsp;&#183;&nbsp; Chemistry Interactive Learning System &nbsp;&#183;&nbsp; Unit 1</span>
+    </td>
+  </tr>
+
+</table>
+
+<script>
+(function() {
+  var DATA = {
+    easy: [
+      { icon:"&#128214;", text:"You need to measure the length of your chemistry textbook.", options:["mm","cm","km"], answer:"cm",
+        explain:"A textbook is roughly 25-30 cm long - small enough that millimeters would be overkill, and far too short to think about in kilometers. Centimeters match the scale of everyday objects you hold in your hands." },
+      { icon:"&#128024;", text:"You need to record the mass of an adult elephant.", options:["mg","g","kg"], answer:"kg",
+        explain:"An elephant's mass is on the order of thousands of kilograms. Grams and milligrams are units for tiny, light things - using them here would mean writing out enormous, unwieldy numbers." },
+      { icon:"&#127939;", text:"You're timing how long it takes a sprinter to run 10 meters.", options:["ms","s","min"], answer:"s",
+        explain:"A 10-meter sprint takes roughly 1-2 seconds. That's too short to reasonably describe in minutes, and while it could be measured in milliseconds, seconds is the practical, human-scale unit for a task like this." },
+      { icon:"&#127979;", text:"You're measuring the width of your classroom.", options:["cm","m","km"], answer:"m",
+        explain:"A classroom is typically 6-10 meters wide. Centimeters would need a number in the hundreds, and kilometers is a unit for distances between places, not the size of a room." },
+      { icon:"&#128028;", text:"You're measuring the length of an ant.", options:["mm","cm","m"], answer:"mm",
+        explain:"An ant is only a few millimeters long. Centimeters and meters are units for objects you can see clearly at a glance across a room - an ant needs a finer unit than that." },
+      { icon:"&#128663;", text:"You're recording the distance of a road trip between two cities.", options:["cm","m","km"], answer:"km",
+        explain:"City-to-city distances are usually tens to hundreds of kilometers. Meters or centimeters would produce numbers so large they'd be hard to read or reason about." },
+      { icon:"&#9999;&#65039;", text:"You're finding the mass of a single pencil.", options:["mg","g","kg"], answer:"g",
+        explain:"A pencil has a mass of about 5-10 grams. That's too light to describe usefully in kilograms, and milligrams would make the number unnecessarily large for something this size." },
+      { icon:"&#127916;", text:"You're timing the length of a feature film.", options:["s","min","hr"], answer:"hr",
+        explain:"A typical movie runs close to 2 hours. Minutes would work too, but for an event this long, hours is the most natural, easiest-to-communicate unit - 'about 2 hours' rather than '120 minutes.'" }
+    ],
+    medium: [
+      { icon:"&#128206;", text:"You're finding the mass of a single paperclip.", options:["mg","g","kg"], answer:"g",
+        explain:"A paperclip has a mass of about 1 gram. Milligrams would make the number unnecessarily small and precise for a rough measurement, while a kilogram is a thousand times too large a unit for something this light." },
+      { icon:"&#127822;", text:"You're finding the mass of one apple.", options:["mg","g","kg"], answer:"g",
+        explain:"A typical apple has a mass of around 150-200 grams. That's well within the everyday range for grams - light enough that kilograms would round away useful detail, too heavy for milligrams to make sense." },
+      { icon:"&#128218;", text:"You're finding the mass of a stack of three textbooks.", options:["mg","g","kg"], answer:"kg",
+        explain:"Three textbooks together have a mass of a few kilograms. At that scale, grams would require an awkwardly large number, so kilograms is the more practical everyday unit." },
+      { icon:"&#128587;", text:"A nurse is recording a patient's height on a medical chart.", options:["mm","cm","m"], answer:"cm",
+        explain:"Human height is commonly recorded in centimeters (around 150-190 cm) because it gives useful precision without extra decimal places - meters alone would require decimals, and millimeters would be far more precise than needed." },
+      { icon:"&#129380;", text:"You're measuring how much water fits in a drinking glass.", options:["mL","L","kL"], answer:"mL",
+        explain:"A typical glass holds around 250 mL of water. That's a small enough quantity that liters would mean working in awkward fractions like 0.25 L - milliliters keeps the number simple and whole." },
+      { icon:"&#128705;", text:"You're measuring how much water fills a bathtub.", options:["mL","L","kL"], answer:"L",
+        explain:"A full bathtub holds roughly 150-300 liters of water. Milliliters would produce a number in the hundreds of thousands, while a kiloliter is a unit for far larger volumes like pools or tanks." },
+      { icon:"&#127939;&#65039;&#8205;&#9792;&#65039;", text:"You're timing a full workout session at the gym.", options:["s","min","hr"], answer:"min",
+        explain:"A workout typically lasts 30-60 minutes. Seconds would give an unnecessarily large number for something this long, and it's usually shorter than a full hour, so minutes fits the scale best." },
+      { icon:"&#127755;", text:"You're finding the mass of a fully packed school backpack.", options:["mg","g","kg"], answer:"kg",
+        explain:"A loaded backpack often has a mass of 4-8 kilograms - heavy enough that grams would require a large, harder-to-read number, so kilograms is the natural everyday unit." }
+    ],
+    hard: [
+      { icon:"&#128138;", text:"A pharmacist is labeling the active ingredient dose in one pain-relief tablet.", options:["mg","g","kg"], answer:"mg",
+        explain:"A typical tablet contains around 500 mg of active ingredient. That's a small mass - writing it in grams (0.5 g) loses the fine precision pharmacists need, and kilograms is far too large a unit for a single dose." },
+      { icon:"&#128167;", text:"A nurse is measuring the total volume of an IV fluid bag for a patient.", options:["mL","L","kL"], answer:"L",
+        explain:"A standard IV bag holds about 1 liter of fluid. Milliliters would work numerically (1,000 mL) but liters is the standard, easy-to-communicate unit for a bag this size - and a kiloliter is far too large to apply here." },
+      { icon:"&#128065;&#65039;", text:"A pharmacist is measuring one drop of liquid medicine from an eyedropper.", options:["mL","L","&#956;L"], answer:"mL",
+        explain:"A single eyedrop is typically about 0.05 mL - small, but still commonly expressed in milliliters (or fractions of one) in clinical settings, since liters would be far too large and full microliter precision usually isn't needed for a dose this size." },
+      { icon:"&#9889;", text:"A scientist is measuring how quickly a person reacts to a flash of light.", options:["ms","s","min"], answer:"ms",
+        explain:"Human reaction time is typically 200-250 milliseconds. Expressing it in seconds (0.2 s) would work but is less standard for such short intervals, and minutes is far too coarse a unit to capture this kind of speed." },
+      { icon:"&#128138;", text:"A pharmacist is recording the mass of the active ingredient in one vitamin tablet.", options:["mg","g","kg"], answer:"mg",
+        explain:"Vitamin doses are usually tens to hundreds of milligrams (for example, 400 mg of vitamin C). Grams would flatten out that precision into an awkward decimal, and kilograms is a thousand times too large." },
+      { icon:"&#129766;", text:"A lab technician is measuring the volume of blood drawn into a standard test tube.", options:["mL","L","&#956;L"], answer:"mL",
+        explain:"A standard blood draw tube holds about 5-10 mL. Liters would make the number a tiny, hard-to-read decimal, while microliters would make it an unnecessarily large one - milliliters is the working unit clinicians actually use." },
+      { icon:"&#127838;", text:"A scientist is measuring the mass of a single grain of rice for a lab activity.", options:["mg","g","kg"], answer:"mg",
+        explain:"A single grain of rice has a mass of roughly 20-30 milligrams. That's far too little mass to express meaningfully in grams or kilograms without a long string of decimal zeros." },
+      { icon:"&#10084;&#65039;", text:"A doctor is timing the duration of a single heartbeat.", options:["ms","s","min"], answer:"s",
+        explain:"One heartbeat lasts about 0.8 seconds - short, but still naturally described in seconds. Milliseconds would work numerically (800 ms) but seconds is the unit doctors and patients actually use, and minutes is far too long to describe one beat." }
+    ]
+  };
+
+  var LEVEL_LABELS = { easy: "EASY", medium: "MEDIUM", hard: "HARD" };
+  var state = { level: null, order: [], index: 0, score: 0, misses: [] };
+
+  function $(id) { return document.getElementById(id); }
+
+  function showScreen(name) {
+    $("pku-tr-menu").style.display = (name === "menu") ? "table-row" : "none";
+    $("pku-tr-round").style.display = (name === "round") ? "table-row" : "none";
+    $("pku-tr-results").style.display = (name === "results") ? "table-row" : "none";
+  }
+
+  function shuffled(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+    }
+    return a;
+  }
+
+  function startLevel(level) {
+    state.level = level;
+    state.order = DATA[level];
+    state.index = 0;
+    state.score = 0;
+    state.misses = [];
+    showScreen("round");
+    renderQuestion();
+  }
+
+  function renderQuestion() {
+    var q = state.order[state.index];
+    var total = state.order.length;
+
+    $("pku-progress-label").textContent = "Question " + (state.index + 1) + " of " + total;
+    $("pku-progress-fill").style.width = Math.round((state.index / total) * 100) + "%";
+    $("pku-score-pill").innerHTML = "<b>SCORE: " + state.score + "</b>";
+
+    $("pku-scenario-icon").innerHTML = q.icon;
+    $("pku-scenario-label").innerHTML = "<b>" + LEVEL_LABELS[state.level] + " &#183; SCENARIO " + (state.index + 1) + "</b>";
+    $("pku-scenario-text").textContent = q.text;
+
+    var optRow = $("pku-options-row");
+    optRow.innerHTML = "";
+    var opts = shuffled(q.options);
+    for (var i = 0; i < opts.length; i++) {
+      (function(unit) {
+        var td = document.createElement("td");
+        td.style.padding = "3px";
+        td.style.width = "33%";
+
+        var btn = document.createElement("button");
+        btn.style.width = "100%";
+        btn.style.backgroundColor = "#ffffff";
+        btn.style.border = "2px solid #C8DEFF";
+        btn.style.borderRadius = "6px";
+        btn.style.padding = "14px 8px";
+        btn.style.fontFamily = "Arial, sans-serif";
+        btn.style.fontSize = "15px";
+        btn.style.color = "#1A2B3C";
+        btn.style.cursor = "pointer";
+        btn.innerHTML = unit;
+        btn.addEventListener("click", function() { handleAnswer(unit, btn); });
+
+        td.appendChild(btn);
+        optRow.appendChild(td);
+      })(opts[i]);
+    }
+
+    var fb = $("pku-feedback");
+    fb.style.display = "none";
+    $("pku-btn-next").style.display = "none";
+  }
+
+  function handleAnswer(chosen, btnEl) {
+    var q = state.order[state.index];
+    var correct = (chosen === q.answer);
+
+    var allTds = $("pku-options-row").children;
+    for (var i = 0; i < allTds.length; i++) {
+      var btn = allTds[i].firstChild;
+      btn.disabled = true;
+      btn.style.cursor = "default";
+      if (btn.innerHTML === q.answer) {
+        btn.style.backgroundColor = "#EAF7DD";
+        btn.style.borderColor = "#7DC229";
+        btn.style.color = "#1A2B0C";
+      }
+    }
+    if (!correct) {
+      btnEl.style.backgroundColor = "#FBE9E7";
+      btnEl.style.borderColor = "#C0392B";
+      btnEl.style.color = "#7A241C";
+    }
+
+    var fb = $("pku-feedback");
+    fb.style.display = "block";
+    if (correct) {
+      fb.style.backgroundColor = "#EAF7DD";
+      fb.style.border = "1px solid #7DC229";
+      fb.style.color = "#1A2B0C";
+      $("pku-feedback-head").innerHTML = "<b>Correct - " + q.answer + " is the practical unit.</b>";
+    } else {
+      fb.style.backgroundColor = "#FBE9E7";
+      fb.style.border = "1px solid #C0392B";
+      fb.style.color = "#5C1D14";
+      $("pku-feedback-head").innerHTML = "<b>Not quite - the better fit is " + q.answer + ".</b>";
+    }
+    $("pku-feedback-body").textContent = q.explain;
+
+    if (correct) { state.score++; } else { state.misses.push(q); }
+    $("pku-score-pill").innerHTML = "<b>SCORE: " + state.score + "</b>";
+
+    var total = state.order.length;
+    $("pku-progress-fill").style.width = Math.round(((state.index + 1) / total) * 100) + "%";
+
+    var nextBtn = $("pku-btn-next");
+    nextBtn.style.display = "inline-block";
+    nextBtn.innerHTML = (state.index === total - 1) ? "See results" : "Next question &#9654;";
+  }
+
+  function nextQuestion() {
+    state.index++;
+    if (state.index >= state.order.length) { renderResults(); } else { renderQuestion(); }
+  }
+
+  function renderResults() {
+    showScreen("results");
+    var total = state.order.length;
+    $("pku-result-level-label").innerHTML = "<b>" + LEVEL_LABELS[state.level] + " &#8212; COMPLETE</b>";
+    $("pku-result-score").innerHTML = "<b>" + state.score + "/" + total + "</b>";
+
+    var pct = state.score / total;
+    var msg;
+    if (pct === 1) { msg = "Perfect round - you've got a strong feel for scale at this level."; }
+    else if (pct >= 0.75) { msg = "Solid work - you're reading scale correctly most of the time."; }
+    else if (pct >= 0.5) { msg = "Good start - a few of these are worth reviewing below."; }
+    else { msg = "This level takes practice - look over the explanations below, then give it another try."; }
+    $("pku-result-msg").textContent = msg;
+
+    var reviewWrap = $("pku-result-review");
+    reviewWrap.innerHTML = "";
+    if (state.misses.length === 0) {
+      var div = document.createElement("div");
+      div.style.backgroundColor = "#EAF7DD";
+      div.style.border = "1px solid #7DC229";
+      div.style.borderRadius = "6px";
+      div.style.padding = "14px 16px";
+      div.style.fontFamily = "Arial, sans-serif";
+      div.style.fontSize = "13.5px";
+      div.style.color = "#1A2B0C";
+      div.style.marginBottom = "18px";
+      div.textContent = "No missed scenarios this round - nice.";
+      reviewWrap.appendChild(div);
+    } else {
+      var titleP = document.createElement("p");
+      titleP.style.fontFamily = "Arial, sans-serif";
+      titleP.style.fontSize = "12px";
+      titleP.style.letterSpacing = "1px";
+      titleP.style.color = "#3C4550";
+      titleP.style.margin = "0 0 10px 0";
+      titleP.innerHTML = "<b>WORTH A SECOND LOOK</b>";
+      reviewWrap.appendChild(titleP);
+
+      for (var i = 0; i < state.misses.length; i++) {
+        var q = state.misses[i];
+        var item = document.createElement("div");
+        item.style.backgroundColor = "#F7F8FA";
+        item.style.border = "1px solid #E2E8F0";
+        item.style.borderLeft = "4px solid #F0A500";
+        item.style.borderRadius = "5px";
+        item.style.padding = "12px 14px";
+        item.style.marginBottom = "10px";
+        item.style.fontFamily = "Arial, sans-serif";
+        item.style.fontSize = "13px";
+        item.style.lineHeight = "1.5";
+        item.innerHTML = "<b>" + q.text + "</b><br>Correct unit: <b>" + q.answer + "</b> &#8212; " + q.explain;
+        reviewWrap.appendChild(item);
+      }
+    }
+  }
+
+  function bindLevelCard(id, level) {
+    var el = $(id);
+    el.addEventListener("click", function() { startLevel(level); });
+    el.addEventListener("keydown", function(e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); startLevel(level); }
+    });
+  }
+
+  bindLevelCard("pku-level-easy", "easy");
+  bindLevelCard("pku-level-medium", "medium");
+  bindLevelCard("pku-level-hard", "hard");
+
+  $("pku-btn-next").addEventListener("click", nextQuestion);
+  $("pku-btn-menu").addEventListener("click", function() { showScreen("menu"); });
+  $("pku-btn-back-menu").addEventListener("click", function() { showScreen("menu"); });
+  $("pku-btn-retry").addEventListener("click", function() { startLevel(state.level); });
+
+  showScreen("menu");
+})();
+</script>
+
+
+</body>
+</html>
