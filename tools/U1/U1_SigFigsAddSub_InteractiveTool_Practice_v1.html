@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>cHemical REaxns · Sig Figs: Addition &amp; Subtraction Practice</title>
+<style>
+  :root {
+    --navy-dark: #1A2B3C;
+    --navy-darkest: #111C26;
+    --electric-blue: #1A73C8;
+    --acid-green: #7DC229;
+    --charcoal: #3C4550;
+    --amber: #F0A500;
+    --deep-teal: #1A6B72;
+    --light-blue: #F0F6FF;
+    --blue-border: #C8DEFF;
+    --light-gray: #F7F8FA;
+    --divider-gray: #E2E8F0;
+    --muted: #6A7D8E;
+    --white: #FFFFFF;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--light-gray);
+    color: var(--charcoal);
+    display: flex;
+    justify-content: center;
+    padding: 24px 12px 60px 12px;
+  }
+
+  .cr-app {
+    width: 100%;
+    max-width: 720px;
+    background-color: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(26,43,60,0.12);
+  }
+
+  /* ── HEADER ─────────────────────────────────────────── */
+  .cr-header {
+    background-color: var(--navy-dark);
+    padding: 22px 28px 20px 28px;
+    border-top: 5px solid var(--acid-green);
+  }
+
+  .cr-eyebrow {
+    font-size: 11px;
+    color: #8899AA;
+    letter-spacing: 1.5px;
+    margin: 0 0 6px 0;
+  }
+
+  .cr-eyebrow b { color: var(--acid-green); }
+
+  .cr-title {
+    font-size: 21px;
+    color: var(--white);
+    margin: 0 0 4px 0;
+    font-weight: bold;
+  }
+
+  .cr-subtitle {
+    font-size: 13px;
+    color: #AABBCC;
+    margin: 0;
+  }
+
+  /* ── LEVEL SELECT SCREEN ────────────────────────────── */
+  .cr-screen { display: none; padding: 28px; }
+  .cr-screen.active { display: block; }
+
+  .cr-rule-box {
+    background-color: var(--light-blue);
+    border: 1px solid var(--blue-border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--charcoal);
+    margin-bottom: 22px;
+  }
+
+  .cr-rule-box b { color: var(--electric-blue); }
+
+  .cr-level-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 520px) {
+    .cr-level-grid { grid-template-columns: 1fr; }
+  }
+
+  .cr-level-card {
+    border: 2px solid var(--divider-gray);
+    border-radius: 10px;
+    padding: 20px 18px;
+    cursor: pointer;
+    text-align: left;
+    background-color: var(--white);
+    transition: border-color 0.15s ease, transform 0.1s ease;
+  }
+
+  .cr-level-card:hover {
+    border-color: var(--electric-blue);
+    transform: translateY(-1px);
+  }
+
+  .cr-level-tag {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 1px;
+    font-weight: bold;
+    color: var(--white);
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+
+  .cr-level-tag.easy { background-color: var(--acid-green); color: #1A2B0C; }
+  .cr-level-tag.hard { background-color: var(--deep-teal); }
+
+  .cr-level-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--navy-dark);
+    margin: 0 0 6px 0;
+  }
+
+  .cr-level-desc {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* ── ROUND SCREEN ───────────────────────────────────── */
+  .cr-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .cr-progress-label {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+
+  .cr-score-pill {
+    background-color: var(--navy-dark);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: 5px 12px;
+    border-radius: 20px;
+  }
+
+  .cr-topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .cr-btn-menu {
+    background-color: var(--white);
+    color: var(--muted);
+    border: 1px solid var(--divider-gray) !important;
+    font-size: 10.5px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+
+  .cr-btn-menu:hover {
+    color: var(--electric-blue);
+    border-color: var(--electric-blue) !important;
+  }
+
+  .cr-progress-track {
+    height: 6px;
+    background-color: var(--divider-gray);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 22px;
+  }
+
+  .cr-progress-fill {
+    height: 100%;
+    width: 0%;
+    background-color: var(--electric-blue);
+    transition: width 0.25s ease;
+  }
+
+  .cr-question-card {
+    border: 1px solid var(--divider-gray);
+    border-radius: 10px;
+    padding: 26px 22px;
+    text-align: center;
+    background-color: var(--light-gray);
+  }
+
+  .cr-question-label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin: 0 0 14px 0;
+  }
+
+  .cr-expression {
+    font-size: 26px;
+    font-weight: bold;
+    color: var(--navy-dark);
+    margin: 0 0 22px 0;
+    letter-spacing: 0.5px;
+  }
+
+  .cr-input-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .cr-answer-input {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    text-align: center;
+    padding: 10px 14px;
+    width: 160px;
+    border: 2px solid var(--blue-border);
+    border-radius: 8px;
+    color: var(--navy-dark);
+    background-color: var(--white);
+  }
+
+  .cr-answer-input:focus {
+    outline: none;
+    border-color: var(--electric-blue);
+  }
+
+  .cr-btn {
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    border: none;
+    border-radius: 8px;
+    padding: 11px 20px;
+    cursor: pointer;
+  }
+
+  .cr-btn-primary {
+    background-color: var(--electric-blue);
+    color: var(--white);
+  }
+
+  .cr-btn-primary:disabled {
+    background-color: #9FC3E3;
+    cursor: default;
+  }
+
+  .cr-btn-next {
+    background-color: var(--acid-green);
+    color: #1A2B0C;
+    display: none;
+    margin: 18px auto 0 auto;
+  }
+
+  .cr-hint {
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-top: 10px;
+  }
+
+  .cr-feedback {
+    display: none;
+    margin-top: 18px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    text-align: left;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  .cr-feedback.show { display: block; }
+
+  .cr-feedback.correct {
+    background-color: #EEF9E4;
+    border: 1px solid #C7E8A6;
+    color: #3B5B1A;
+  }
+
+  .cr-feedback.incorrect {
+    background-color: #FDECEC;
+    border: 1px solid #F3B9B9;
+    color: #7A1F1F;
+  }
+
+  .cr-feedback-head {
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+
+  /* ── END SCREEN ─────────────────────────────────────── */
+  .cr-end-score {
+    text-align: center;
+    padding: 8px 0 20px 0;
+  }
+
+  .cr-end-score .big {
+    font-size: 42px;
+    font-weight: bold;
+    color: var(--navy-dark);
+  }
+
+  .cr-end-score .label {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  .cr-miss-item {
+    border: 1px solid var(--divider-gray);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    background-color: var(--light-gray);
+  }
+
+  .cr-miss-item .expr {
+    font-weight: bold;
+    color: var(--navy-dark);
+    margin-bottom: 4px;
+  }
+
+  .cr-miss-item .ans {
+    color: #7A1F1F;
+    margin-bottom: 4px;
+  }
+
+  .cr-miss-item .exp {
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .cr-end-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+
+  .cr-btn-secondary {
+    background-color: var(--white);
+    color: var(--electric-blue);
+    border: 2px solid var(--electric-blue) !important;
+  }
+
+  .cr-footer {
+    background-color: var(--navy-darkest);
+    padding: 12px 28px;
+    text-align: center;
+  }
+
+  .cr-footer span {
+    font-size: 10.5px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+
+<div class="cr-app" id="cr-app">
+
+  <div class="cr-header">
+    <p class="cr-eyebrow">cHEMICAL REAXNS &nbsp;&#183;&nbsp; <b>UNIT 1 &#183; SCIENCE &amp; MATH</b></p>
+    <p class="cr-title">Sig Figs: Addition &amp; Subtraction Practice</p>
+    <p class="cr-subtitle">Type in your answer with the correct number of decimal places.</p>
+  </div>
+
+  <!-- ══════════ SCREEN: LEVEL SELECT ══════════ -->
+  <div class="cr-screen active" id="screen-select">
+    <div class="cr-rule-box">
+      <b>The rule:</b> for addition and subtraction, your answer can only have as many <b>decimal places</b> as the measurement with the <b>fewest</b> decimal places — not the fewest total significant figures. Round your final answer to that many decimal places. If the digit being dropped is 5 or greater, round up.
+    </div>
+
+    <div class="cr-level-grid">
+      <div class="cr-level-card" onclick="startLevel('easy')">
+        <span class="cr-level-tag easy">LEVEL 1</span>
+        <p class="cr-level-title">Easy</p>
+        <p class="cr-level-desc">10 problems &#183; two numbers each &#183; straightforward decimal places. A good warm-up before moving on.</p>
+      </div>
+      <div class="cr-level-card" onclick="startLevel('hard')">
+        <span class="cr-level-tag hard">LEVEL 2</span>
+        <p class="cr-level-title">Difficult</p>
+        <p class="cr-level-desc">10 problems &#183; two or three numbers &#183; mixed decimal places, borrowing, and trailing/leading zeros.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ SCREEN: ROUND ══════════ -->
+  <div class="cr-screen" id="screen-round">
+    <div class="cr-topbar">
+      <span class="cr-progress-label" id="progress-label">Question 1 of 10</span>
+      <span class="cr-topbar-right">
+        <span class="cr-score-pill" id="score-pill">SCORE: 0</span>
+        <button class="cr-btn-menu" onclick="confirmRestart()" title="Back to main menu">&#8634; Menu</button>
+      </span>
+    </div>
+    <div class="cr-progress-track">
+      <div class="cr-progress-fill" id="progress-fill"></div>
+    </div>
+
+    <div class="cr-question-card">
+      <p class="cr-question-label" id="level-label">LEVEL 1 &#183; EASY</p>
+      <p class="cr-expression" id="expression">—</p>
+
+      <div class="cr-input-row">
+        <input type="text" class="cr-answer-input" id="answer-input" placeholder="type answer" autocomplete="off" />
+        <button class="cr-btn cr-btn-primary" id="check-btn" onclick="checkAnswer()">Check Answer</button>
+      </div>
+      <p class="cr-hint">Include the correct number of decimal places — e.g. a trailing zero like 16.0 may be required.</p>
+
+      <div class="cr-feedback" id="feedback">
+        <p class="cr-feedback-head" id="feedback-head"></p>
+        <p id="feedback-body"></p>
+      </div>
+
+      <button class="cr-btn cr-btn-next" id="next-btn" onclick="nextQuestion()">Next Question &#8594;</button>
+    </div>
+  </div>
+
+  <!-- ══════════ SCREEN: END ══════════ -->
+  <div class="cr-screen" id="screen-end">
+    <div class="cr-end-score">
+      <div class="big" id="end-score">0 / 10</div>
+      <div class="label" id="end-message">LEVEL COMPLETE</div>
+    </div>
+
+    <div id="miss-list"></div>
+
+    <div class="cr-end-buttons">
+      <button class="cr-btn cr-btn-primary" onclick="retryLevel()">Try This Level Again</button>
+      <button class="cr-btn cr-btn-secondary" onclick="goToSelect()">Choose a Different Level</button>
+    </div>
+  </div>
+
+  <div class="cr-footer">
+    <span>cHemical REaxns &nbsp;&#183;&nbsp; Chemistry Interactive Learning System &nbsp;&#183;&nbsp; 2026</span>
+  </div>
+
+</div>
+
+<script>
+  // ── Question bank ──────────────────────────────────────────────
+  // expectedValue: numeric correct answer after rounding
+  // expectedDecimals: required number of digits after the decimal point (0 = whole number, no decimal point)
+  var DATA = {
+    easy: [
+      { expr: "24.6  +  3.12", value: 27.7, decimals: 1,
+        explain: "24.6 has 1 decimal place, 3.12 has 2. The sum 27.72 rounds to 1 decimal place: 27.7." },
+      { expr: "15.34  +  8.2", value: 23.5, decimals: 1,
+        explain: "8.2 has the fewest decimal places (1). The sum 23.54 rounds to 23.5." },
+      { expr: "36  +  4.8", value: 41, decimals: 0,
+        explain: "36 is a whole number (0 decimal places). The sum 40.8 rounds to the nearest whole number: 41." },
+      { expr: "9.27  −  3.1", value: 6.2, decimals: 1,
+        explain: "3.1 has the fewest decimal places (1). The difference 6.17 rounds to 6.2." },
+      { expr: "18.6  −  5.34", value: 13.3, decimals: 1,
+        explain: "18.6 has the fewest decimal places (1). The difference 13.26 rounds to 13.3." },
+      { expr: "11.5  +  22.34", value: 33.8, decimals: 1,
+        explain: "11.5 has the fewest decimal places (1). The sum 33.84 rounds to 33.8." },
+      { expr: "50.6  −  12.13", value: 38.5, decimals: 1,
+        explain: "50.6 has the fewest decimal places (1). The difference 38.47 rounds to 38.5." },
+      { expr: "6.8  +  9.19", value: 16.0, decimals: 1,
+        explain: "6.8 has the fewest decimal places (1). The sum 15.99 rounds to 16.0 — keep the trailing zero to show 1 decimal place." },
+      { expr: "12.34  +  5.62", value: 17.96, decimals: 2,
+        explain: "Both numbers have 2 decimal places, so no rounding is needed: 17.96." },
+      { expr: "3.14  +  2.8", value: 5.9, decimals: 1,
+        explain: "2.8 has the fewest decimal places (1). The sum 5.94 rounds to 5.9." }
+    ],
+    hard: [
+      { expr: "124.56  +  3.2  +  0.075", value: 127.8, decimals: 1,
+        explain: "3.2 has the fewest decimal places (1) of the three numbers. The sum 127.835 rounds to 127.8." },
+      { expr: "88  −  3.456", value: 85, decimals: 0,
+        explain: "88 is a whole number (0 decimal places). The difference 84.544 rounds to the nearest whole number: 85." },
+      { expr: "0.0034  +  1.2", value: 1.2, decimals: 1,
+        explain: "1.2 has the fewest decimal places (1). The sum 1.2034 rounds to 1.2 — the small addend barely moves the total." },
+      { expr: "250.7  −  88.25  −  12.033", value: 150.4, decimals: 1,
+        explain: "250.7 has the fewest decimal places (1). The result 150.417 rounds to 150.4." },
+      { expr: "6.025  +  3.9975", value: 10.023, decimals: 3,
+        explain: "6.025 has the fewest decimal places (3). The sum 10.0225 rounds to 10.023 (the dropped digit is exactly 5, so round up)." },
+      { expr: "45.3  −  12.456  +  2.05", value: 34.9, decimals: 1,
+        explain: "45.3 has the fewest decimal places (1). The result 34.894 rounds to 34.9." },
+      { expr: "500  −  123.456", value: 377, decimals: 0,
+        explain: "500 is a whole number (0 decimal places). The difference 376.544 rounds to the nearest whole number: 377." },
+      { expr: "7.5  +  2.25  +  0.125", value: 9.9, decimals: 1,
+        explain: "7.5 has the fewest decimal places (1). The sum 9.875 rounds to 9.9." },
+      { expr: "99.99  +  0.01", value: 100.00, decimals: 2,
+        explain: "Both numbers have 2 decimal places, so the answer keeps 2 decimal places: 100.00 — don't drop the trailing zeros." },
+      { expr: "62.3  −  62.25", value: 0.1, decimals: 1,
+        explain: "62.3 has the fewest decimal places (1). The difference 0.05 rounds up to 0.1 (the dropped digit is exactly 5)." }
+    ]
+  };
+
+  var LEVEL_META = {
+    easy: { label: "LEVEL 1 &#183; EASY", name: "Level 1 · Easy" },
+    hard: { label: "LEVEL 2 &#183; DIFFICULT", name: "Level 2 · Difficult" }
+  };
+
+  var state = { level: null, order: [], index: 0, score: 0, misses: [] };
+
+  function $(id) { return document.getElementById(id); }
+
+  function showScreen(name) {
+    var screens = document.querySelectorAll(".cr-screen");
+    for (var i = 0; i < screens.length; i++) screens[i].classList.remove("active");
+    $("screen-" + name).classList.add("active");
+  }
+
+  function shuffled(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+    }
+    return a;
+  }
+
+  function startLevel(level) {
+    state.level = level;
+    state.order = shuffled(DATA[level]);
+    state.index = 0;
+    state.score = 0;
+    state.misses = [];
+    showScreen("round");
+    renderQuestion();
+  }
+
+  function retryLevel() {
+    startLevel(state.level);
+  }
+
+  function goToSelect() {
+    showScreen("select");
+  }
+
+  function confirmRestart() {
+    goToSelect();
+  }
+
+  function renderQuestion() {
+    var q = state.order[state.index];
+    var total = state.order.length;
+
+    $("progress-label").textContent = "Question " + (state.index + 1) + " of " + total;
+    $("progress-fill").style.width = Math.round((state.index / total) * 100) + "%";
+    $("score-pill").textContent = "SCORE: " + state.score;
+    $("level-label").innerHTML = LEVEL_META[state.level].label;
+    $("expression").textContent = q.expr;
+
+    var input = $("answer-input");
+    input.value = "";
+    input.disabled = false;
+    input.focus();
+
+    $("check-btn").disabled = false;
+    $("check-btn").textContent = "Check Answer";
+    $("feedback").className = "cr-feedback";
+    $("next-btn").style.display = "none";
+  }
+
+  function parseAnswer(raw) {
+    var input = raw.trim();
+    var re = /^-?\d+(\.\d+)?$/;
+    if (!re.test(input)) return null;
+    var parts = input.split(".");
+    var decimals = parts.length > 1 ? parts[1].length : 0;
+    var val = parseFloat(input);
+    return { value: val, decimals: decimals };
+  }
+
+  function checkAnswer() {
+    var input = $("answer-input");
+    if (input.disabled) return;
+
+    var q = state.order[state.index];
+    var parsed = parseAnswer(input.value);
+
+    var correct = false;
+    var reason = "";
+
+    if (parsed === null) {
+      reason = "Enter a number using digits only (e.g. 27.7).";
+    } else if (parsed.decimals !== q.decimals) {
+      if (parsed.decimals < q.decimals) {
+        reason = "Close on the value, but you need " + q.decimals + " decimal place" + (q.decimals === 1 ? "" : "s") + " — check for a required trailing zero.";
+      } else {
+        reason = "Close on the value, but the answer should only have " + q.decimals + " decimal place" + (q.decimals === 1 ? "" : "s") + ".";
+      }
+    } else if (Math.abs(parsed.value - q.value) > 1e-9) {
+      reason = "The decimal-place count is right, but the value itself isn't — try the calculation again.";
+    } else {
+      correct = true;
+    }
+
+    input.disabled = true;
+    $("check-btn").disabled = true;
+
+    var fb = $("feedback");
+    fb.className = "cr-feedback show " + (correct ? "correct" : "incorrect");
+    $("feedback-head").textContent = correct ? "Correct!" : "Not quite — correct answer: " + q.value.toFixed(q.decimals);
+    $("feedback-body").textContent = q.explain;
+
+    if (correct) {
+      state.score++;
+    } else {
+      state.misses.push(q);
+    }
+
+    $("score-pill").textContent = "SCORE: " + state.score;
+    $("next-btn").style.display = "inline-block";
+  }
+
+  function nextQuestion() {
+    state.index++;
+    if (state.index >= state.order.length) {
+      showEnd();
+    } else {
+      renderQuestion();
+    }
+  }
+
+  function showEnd() {
+    $("progress-fill").style.width = "100%";
+    showScreen("end");
+
+    var total = state.order.length;
+    $("end-score").textContent = state.score + " / " + total;
+
+    var pct = state.score / total;
+    var msg = "GREAT WORK";
+    if (pct < 0.5) msg = "KEEP PRACTICING";
+    else if (pct < 0.8) msg = "SOLID EFFORT";
+    $("end-message").textContent = LEVEL_META[state.level].name.toUpperCase() + " COMPLETE &#183; " + msg;
+    $("end-message").innerHTML = LEVEL_META[state.level].name.toUpperCase() + " COMPLETE &nbsp;&#183;&nbsp; " + msg;
+
+    var list = $("miss-list");
+    list.innerHTML = "";
+    if (state.misses.length === 0) {
+      var div = document.createElement("div");
+      div.className = "cr-miss-item";
+      div.innerHTML = "<span class=\"expr\">Perfect round — every answer correct.</span>";
+      list.appendChild(div);
+    } else {
+      for (var i = 0; i < state.misses.length; i++) {
+        var q = state.misses[i];
+        var item = document.createElement("div");
+        item.className = "cr-miss-item";
+        item.innerHTML =
+          "<div class=\"expr\">" + q.expr + "</div>" +
+          "<div class=\"ans\">Correct answer: " + q.value.toFixed(q.decimals) + "</div>" +
+          "<div class=\"exp\">" + q.explain + "</div>";
+        list.appendChild(item);
+      }
+    }
+  }
+
+  // Allow pressing Enter to submit / advance
+  document.addEventListener("keydown", function(e) {
+    if (e.key !== "Enter") return;
+    var input = $("answer-input");
+    if (document.getElementById("screen-round").classList.contains("active")) {
+      if (!input.disabled) {
+        checkAnswer();
+      } else if ($("next-btn").style.display !== "none") {
+        nextQuestion();
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
