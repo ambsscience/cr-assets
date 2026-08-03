@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>cHemical REaxns · Significant Figures Practice</title>
+<style>
+  :root {
+    --navy-dark: #1A2B3C;
+    --navy-darkest: #111C26;
+    --electric-blue: #1A73C8;
+    --acid-green: #7DC229;
+    --charcoal: #3C4550;
+    --amber: #F0A500;
+    --deep-teal: #1A6B72;
+    --light-blue: #F0F6FF;
+    --blue-border: #C8DEFF;
+    --light-gray: #F7F8FA;
+    --divider-gray: #E2E8F0;
+    --muted: #6A7D8E;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--light-gray);
+    padding: 24px 12px;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; }
+
+  /* Header */
+  .header {
+    background: var(--navy-dark);
+    border-top: 6px solid var(--acid-green);
+    border-radius: 10px 10px 0 0;
+    padding: 20px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .header .eyebrow {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--acid-green);
+    font-weight: bold;
+  }
+  .header h1 {
+    margin: 6px 0 0 0;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 900;
+  }
+  .header .sub { font-size: 13px; color: var(--muted); }
+  .score-box { text-align: right; color: #fff; }
+  .score-box .label { font-size: 11px; color: var(--muted); letter-spacing: 1px; }
+  .score-box .value { font-size: 22px; font-weight: 900; color: var(--acid-green); }
+
+  /* Tabs */
+  .tabs {
+    background: #fff;
+    border-left: 1px solid var(--divider-gray);
+    border-right: 1px solid var(--divider-gray);
+    padding: 14px 20px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    cursor: pointer;
+    border: 1.5px solid var(--divider-gray);
+    background: #fff;
+    color: var(--charcoal);
+    border-radius: 20px;
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tab-btn.active { color: #fff; }
+  .tab-btn svg { display: block; }
+
+  /* Rule banner */
+  .rule-banner {
+    border-left: 1px solid var(--divider-gray);
+    border-right: 1px solid var(--divider-gray);
+    padding: 16px 24px;
+  }
+  .rule-banner .top-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+  .rule-badge {
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 14px;
+  }
+  .rule-title { font-size: 16px; font-weight: 900; color: var(--charcoal); }
+  .rule-banner p { margin: 0; font-size: 13.5px; color: var(--charcoal); line-height: 1.6; }
+
+  /* Question card */
+  .card {
+    background: #fff;
+    border-left: 1px solid var(--divider-gray);
+    border-right: 1px solid var(--divider-gray);
+    border-bottom: 1px solid var(--divider-gray);
+    padding: 28px 24px;
+  }
+  .card-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .card-top-row b { color: var(--charcoal); }
+
+  .question-block { text-align: center; margin: 10px 0 26px 0; }
+  .question-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; letter-spacing: 1px; }
+  .question-number {
+    font-size: 44px;
+    font-weight: 900;
+    font-family: Georgia, serif;
+  }
+
+  .choices {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .choice-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    border: 2px solid var(--divider-gray);
+    background: #fff;
+    color: var(--charcoal);
+    font-size: 18px;
+    font-weight: 900;
+    cursor: pointer;
+  }
+  .choice-btn:disabled { cursor: default; }
+  .choice-btn.correct-choice { background: #E9F7DA; border-color: var(--acid-green); color: #3D6B14; }
+  .choice-btn.wrong-choice { background: #FCE8E6; border-color: #D9534F; color: #B02A20; }
+
+  .feedback {
+    margin-top: 18px;
+    padding: 14px 18px;
+    border-radius: 8px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .feedback.ok { background: #E9F7DA; border: 1.5px solid var(--acid-green); }
+  .feedback.bad { background: #FCE8E6; border: 1.5px solid #D9534F; }
+  .feedback .ftitle { font-weight: 900; font-size: 13.5px; margin-bottom: 3px; }
+  .feedback.ok .ftitle { color: #3D6B14; }
+  .feedback.bad .ftitle { color: #B02A20; }
+  .feedback .fexp { font-size: 13px; color: var(--charcoal); line-height: 1.5; }
+  .feedback svg { flex-shrink: 0; margin-top: 2px; }
+
+  .next-row { text-align: center; margin-top: 20px; }
+  .btn-primary {
+    background: var(--navy-dark);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 22px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .complete-block { text-align: center; padding: 20px 0; }
+  .complete-block .ctitle { font-size: 20px; font-weight: 900; color: var(--charcoal); margin: 10px 0 6px 0; }
+  .complete-block .cscore { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
+  .complete-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .btn-secondary {
+    background: #fff;
+    color: var(--charcoal);
+    border: 1.5px solid var(--divider-gray);
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-accent {
+    background: var(--acid-green);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .footer {
+    background: var(--navy-darkest);
+    border-radius: 0 0 10px 10px;
+    padding: 12px 24px;
+    text-align: center;
+  }
+  .footer span { font-size: 11px; color: var(--muted); letter-spacing: 1px; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div>
+        <span class="eyebrow">cHemical REaxns · UNIT 1 · SCIENCE AND MATH</span>
+        <h1>Significant Figures Practice</h1>
+        <div class="sub">Counting &amp; identifying significant figures — CP level</div>
+      </div>
+      <div class="score-box">
+        <div class="label">OVERALL SCORE</div>
+        <div class="value" id="overallScore">0/0</div>
+      </div>
+    </div>
+
+    <div class="tabs" id="tabs"></div>
+    <div class="rule-banner" id="ruleBanner"></div>
+    <div class="card" id="card"></div>
+
+    <div class="footer">
+      <span>cHemical REaxns &nbsp;&middot;&nbsp; Chemistry Interactive Learning System &nbsp;&middot;&nbsp; Unit 1 &nbsp;&middot;&nbsp; Significant Figures</span>
+    </div>
+  </div>
+
+<script>
+// ── Icons (inline SVG, no external deps) ──────────────────────────
+const ICON = {
+  check: (color, size) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
+  x: (color, size) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`,
+  chevron: (color, size) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`,
+  refresh: (color, size) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>`,
+  award: (color, size) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`,
+};
+
+// ── Question bank ──────────────────────────────────────────────────
+const SECTIONS = [
+  {
+    id: "rule1", code: "U1B · Rule 1", title: "All Nonzero Digits Count",
+    rule: "Every nonzero digit (1–9) in a measurement is significant.",
+    accent: "#1A73C8", accentSoft: "#F0F6FF", accentBorder: "#C8DEFF",
+    questions: [
+      { n: "728", a: 3, exp: "7, 2, and 8 are all nonzero — all 3 count." },
+      { n: "5.19", a: 3, exp: "5, 1, and 9 are all nonzero digits." },
+      { n: "94", a: 2, exp: "Both digits are nonzero." },
+      { n: "6.483", a: 4, exp: "6, 4, 8, 3 — all nonzero, all significant." },
+      { n: "37,952", a: 5, exp: "Every digit here is nonzero, so every digit counts." },
+      { n: "8.6", a: 2, exp: "Both digits are nonzero." },
+      { n: "419", a: 3, exp: "All three digits are nonzero." },
+      { n: "72,635.9", a: 6, exp: "Every digit — 7, 2, 6, 3, 5, 9 — is nonzero, so all 6 count." },
+    ],
+  },
+  {
+    id: "rule2", code: "U1B · Rule 2", title: "Captive Zeros Count",
+    rule: "Zeros sandwiched between nonzero digits are always significant.",
+    accent: "#1A6B72", accentSoft: "#E8F3F4", accentBorder: "#BFE0E2",
+    questions: [
+      { n: "509", a: 3, exp: "The 0 sits between 5 and 9 — it's captive, so it counts." },
+      { n: "7,003", a: 4, exp: "Both zeros are trapped between the 7 and the 3." },
+      { n: "6.08", a: 3, exp: "The 0 is between 6 and 8 — captive and significant." },
+      { n: "40.09", a: 4, exp: "The zeros sit between the 4 and the 9 — all trapped, all count." },
+      { n: "530.09", a: 5, exp: "Every zero here sits between the 5/3 and the 9 — all captive, all count." },
+      { n: "8,004", a: 4, exp: "Both zeros are sandwiched between the 8 and the 4." },
+      { n: "70.502", a: 5, exp: "All three zeros sit between the 7 and the 2 — captive throughout." },
+    ],
+  },
+  {
+    id: "rule3", code: "U1B · Rule 3", title: "Leading Zeros Never Count",
+    rule: "Zeros that come before the first nonzero digit are never significant — they only hold a place.",
+    accent: "#F0A500", accentSoft: "#FFF6E5", accentBorder: "#F5D68A",
+    questions: [
+      { n: "0.005", a: 1, exp: "The three leading zeros just set the decimal place — only the 5 counts." },
+      { n: "0.00012", a: 2, exp: "Leading zeros don't count; 1 and 2 do." },
+      { n: "0.023", a: 2, exp: "The leading 0's are placeholders — 2 and 3 are significant." },
+      { n: "0.0004", a: 1, exp: "Only the 4 is significant; all zeros before it are leading zeros." },
+      { n: "0.71", a: 2, exp: "The leading 0 before the decimal doesn't count — 7 and 1 do." },
+      { n: "0.00302", a: 3, exp: "Leading zeros don't count. 3, 0, 2 count — that middle 0 is captive." },
+    ],
+  },
+  {
+    id: "rule4", code: "U1B · Rule 4", title: "Trailing Zeros Depend on the Decimal",
+    rule: "Trailing zeros are significant ONLY if there's a decimal point in the number.",
+    accent: "#7DC229", accentSoft: "#F1F8E7", accentBorder: "#D3EBB0",
+    questions: [
+      { n: "900", a: 1, exp: "No decimal point — the trailing zeros are just placeholders. Only the 9 counts." },
+      { n: "900.", a: 3, exp: "That decimal point means all three digits, including both zeros, count." },
+      { n: "12,000", a: 2, exp: "No decimal point — trailing zeros don't count. Only 1 and 2 count." },
+      { n: "12,000.0", a: 6, exp: "The decimal point makes every trailing zero significant." },
+      { n: "6.20", a: 3, exp: "Decimal present — the trailing 0 after the 2 counts." },
+      { n: "700", a: 1, exp: "No decimal — trailing zeros are placeholders only." },
+      { n: "70.0", a: 3, exp: "Decimal point present, so the trailing 0 counts." },
+    ],
+  },
+  {
+    id: "mixed", code: "U1B · Mixed Review", title: "All Four Rules Together",
+    rule: "Apply whichever rule fits: nonzero digits, captive zeros, leading zeros, and trailing zeros.",
+    accent: "#3C4550", accentSoft: "#F7F8FA", accentBorder: "#E2E8F0",
+    questions: [
+      { n: "0.020340", a: 5, exp: "The two leading zeros don't count. From the 2 onward — 2, 0, 3, 4, 0 — every zero is either captive or trailing-with-decimal, so all 5 count." },
+      { n: "104,000", a: 3, exp: "No decimal point. The captive 0 between 1 and 4 counts, but the four trailing zeros don't — total is 1, 0, 4." },
+      { n: "104,000.", a: 7, exp: "Same digits — but that decimal point flips every trailing zero to significant. All 7 digits count." },
+      { n: "0.00500", a: 3, exp: "The three leading zeros don't count. The 5 and the two trailing zeros (decimal present) do — 3 total." },
+      { n: "8,000,000", a: 1, exp: "No decimal point — every zero here is trailing and none of them count. Only the 8 counts." },
+      { n: "8,000,000.", a: 7, exp: "Adding the decimal point makes all six trailing zeros significant, along with the 8 — 7 total." },
+      { n: "0.1002", a: 4, exp: "No leading zeros here (it starts at the 1). Both zeros sit between nonzero digits, so they're captive — all 4 digits count." },
+      { n: "60,700", a: 3, exp: "The captive 0 between 6 and 7 counts, but the two trailing zeros (no decimal) don't — 6, 0, 7." },
+      { n: "60,700.0", a: 6, exp: "Decimal point present — now every trailing zero counts too. All 6 digits are significant." },
+      { n: "0.090090", a: 5, exp: "Leading 0 doesn't count. From the first 9 onward, every zero is captive or trailing-with-decimal — 9, 0, 0, 9, 0 all count." },
+      { n: "3,050,000", a: 3, exp: "The captive 0 between 3 and 5 counts; the four trailing zeros (no decimal) don't — 3, 0, 5." },
+      { n: "3,050,000.", a: 7, exp: "Same digits, but the decimal point makes every trailing zero significant now — all 7 count." },
+      { n: "250,000", a: 2, exp: "Classic tricky case: no decimal point, so all the trailing zeros are placeholders. Only 2 and 5 count." },
+    ],
+  },
+];
+
+const CHOICES = [1, 2, 3, 4, 5, 6, 7];
+
+// ── State ────────────────────────────────────────────────────────────
+let sectionIdx = 0;
+let qIdx = 0;
+let selected = null;
+let showResult = false;
+const scores = SECTIONS.map(() => ({ correct: 0, attempted: 0 }));
+const sectionComplete = SECTIONS.map(() => false);
+
+// ── Render ───────────────────────────────────────────────────────────
+function render() {
+  renderTabs();
+  renderRuleBanner();
+  renderCard();
+  renderOverallScore();
+}
+
+function renderOverallScore() {
+  const totalCorrect = scores.reduce((s, sc) => s + sc.correct, 0);
+  const totalAttempted = scores.reduce((s, sc) => s + sc.attempted, 0);
+  document.getElementById("overallScore").textContent = `${totalCorrect}/${totalAttempted || "—"}`;
+}
+
+function renderTabs() {
+  const tabsEl = document.getElementById("tabs");
+  tabsEl.innerHTML = "";
+  SECTIONS.forEach((s, idx) => {
+    const active = idx === sectionIdx;
+    const done = sectionComplete[idx];
+    const btn = document.createElement("button");
+    btn.className = "tab-btn" + (active ? " active" : "");
+    btn.style.borderColor = active ? s.accent : "var(--divider-gray)";
+    btn.style.background = active ? s.accent : "#fff";
+    btn.style.color = active ? "#fff" : "var(--charcoal)";
+    const label = idx === 4 ? "Mixed Review" : `Rule ${idx + 1}`;
+    btn.innerHTML = (done ? ICON.check(active ? "#fff" : "#7DC229", 13) : "") + `<span>${label}</span>`;
+    btn.onclick = () => goToSection(idx);
+    tabsEl.appendChild(btn);
+  });
+}
+
+function renderRuleBanner() {
+  const s = SECTIONS[sectionIdx];
+  const el = document.getElementById("ruleBanner");
+  el.style.background = s.accentSoft;
+  el.style.borderBottom = `1px solid ${s.accentBorder}`;
+  el.innerHTML = `
+    <div class="top-row">
+      <span class="rule-badge" style="background:${s.accent};">${s.code}</span>
+      <span class="rule-title">${s.title}</span>
+    </div>
+    <p>${s.rule}</p>
+  `;
+}
+
+function renderCard() {
+  const s = SECTIONS[sectionIdx];
+  const card = document.getElementById("card");
+
+  if (sectionComplete[sectionIdx]) {
+    const sc = scores[sectionIdx];
+    const hasNext = sectionIdx + 1 < SECTIONS.length;
+    const nextLabel = sectionIdx + 1 === 4 ? "Mixed Review" : `Rule ${sectionIdx + 2}`;
+    card.innerHTML = `
+      <div class="complete-block">
+        <div>${ICON.award(s.accent, 44)}</div>
+        <div class="ctitle">Section complete!</div>
+        <div class="cscore">You scored <b style="color:${s.accent}">${sc.correct} / ${sc.attempted}</b> on ${s.title}.</div>
+        <div class="complete-actions">
+          <button class="btn-secondary" id="retryBtn">${ICON.refresh("var(--charcoal)", 15)} Retry Section</button>
+          ${hasNext ? `<button class="btn-accent" id="nextSectionBtn">Next: ${nextLabel} ${ICON.chevron("#fff", 16)}</button>` : ""}
+        </div>
+      </div>
+    `;
+    document.getElementById("retryBtn").onclick = retrySection;
+    if (hasNext) document.getElementById("nextSectionBtn").onclick = () => goToSection(sectionIdx + 1);
+    return;
+  }
+
+  const q = s.questions[qIdx];
+  const sc = scores[sectionIdx];
+
+  let choicesHtml = "";
+  CHOICES.forEach((c) => {
+    let cls = "";
+    if (showResult) {
+      if (selected !== null && Number(selected) === c) {
+        cls = Number(selected) === q.a ? "correct-choice" : "wrong-choice";
+      } else if (c === q.a) {
+        cls = "correct-choice";
+      }
+    }
+    choicesHtml += `<button class="choice-btn ${cls}" data-choice="${c}" ${showResult ? "disabled" : ""}>${c}</button>`;
+  });
+
+  let feedbackHtml = "";
+  if (showResult) {
+    const isCorrect = Number(selected) === q.a;
+    feedbackHtml = `
+      <div class="feedback ${isCorrect ? "ok" : "bad"}">
+        ${isCorrect ? ICON.check("#3D6B14", 20) : ICON.x("#B02A20", 20)}
+        <div>
+          <div class="ftitle">${isCorrect ? "Correct!" : `Not quite — the answer is ${q.a}.`}</div>
+          <div class="fexp">${q.exp}</div>
+        </div>
+      </div>
+      <div class="next-row">
+        <button class="btn-primary" id="nextBtn">
+          ${qIdx + 1 < s.questions.length ? "Next Question" : "Finish Section"} ${ICON.chevron("#fff", 16)}
+        </button>
+      </div>
+    `;
+  }
+
+  card.innerHTML = `
+    <div class="card-top-row">
+      <span>QUESTION ${qIdx + 1} OF ${s.questions.length}</span>
+      <span>Section score: <b>${sc.correct}/${sc.attempted}</b></span>
+    </div>
+    <div class="question-block">
+      <div class="question-label">HOW MANY SIGNIFICANT FIGURES?</div>
+      <div class="question-number" style="color:${s.accent};">${q.n}</div>
+    </div>
+    <div class="choices">${choicesHtml}</div>
+    ${feedbackHtml}
+  `;
+
+  card.querySelectorAll(".choice-btn").forEach((btn) => {
+    btn.onclick = () => submitAnswer(Number(btn.getAttribute("data-choice")));
+  });
+  if (showResult) {
+    document.getElementById("nextBtn").onclick = nextQuestion;
+  }
+}
+
+// ── Actions ──────────────────────────────────────────────────────────
+function submitAnswer(value) {
+  if (showResult) return;
+  selected = value;
+  showResult = true;
+  const q = SECTIONS[sectionIdx].questions[qIdx];
+  const correct = Number(value) === q.a;
+  scores[sectionIdx].attempted += 1;
+  if (correct) scores[sectionIdx].correct += 1;
+  render();
+}
+
+function nextQuestion() {
+  selected = null;
+  showResult = false;
+  const s = SECTIONS[sectionIdx];
+  if (qIdx + 1 < s.questions.length) {
+    qIdx += 1;
+  } else {
+    sectionComplete[sectionIdx] = true;
+  }
+  render();
+}
+
+function goToSection(idx) {
+  sectionIdx = idx;
+  qIdx = 0;
+  selected = null;
+  showResult = false;
+  render();
+}
+
+function retrySection() {
+  scores[sectionIdx] = { correct: 0, attempted: 0 };
+  sectionComplete[sectionIdx] = false;
+  goToSection(sectionIdx);
+}
+
+render();
+</script>
+</body>
+</html>
