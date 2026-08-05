@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Significant Figures Practice — cHemical REaxns</title>
+<style>
+  :root{
+    --navy-dark:#1A2B3C;
+    --navy-darkest:#111C26;
+    --electric-blue:#1A73C8;
+    --acid-green:#7DC229;
+    --charcoal:#3C4550;
+    --amber:#F0A500;
+    --deep-teal:#1A6B72;
+    --light-blue:#F0F6FF;
+    --blue-border:#C8DEFF;
+    --light-gray:#F7F8FA;
+    --divider-gray:#E2E8F0;
+    --muted:#6A7D8E;
+  }
+  *{box-sizing:border-box;}
+  body{ margin:0; font-family: Arial, sans-serif; background: var(--light-gray); padding: 24px 12px; color:var(--charcoal); }
+  .wrap{ max-width:900px; margin:0 auto; }
+  .hidden{ display:none !important; }
+
+  /* HEADER */
+  .header{ background: var(--navy-dark); border-top: 6px solid var(--acid-green);
+    border-radius: 10px 10px 0 0; padding: 20px 28px; display:flex;
+    justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; }
+  .header .eyebrow{ font-size: 11px; letter-spacing: 1.5px; color: var(--acid-green); font-weight: bold; text-transform:uppercase; }
+  .header h1{ margin: 6px 0 0 0; color: #fff; font-size: 24px; font-weight: 900; }
+  .header .sub{ font-size: 13px; color: var(--muted); margin-top:4px; }
+  .score-box{ text-align: right; color: #fff; }
+  .score-box .label{ font-size: 11px; color: var(--muted); letter-spacing: 1px; text-transform:uppercase; }
+  .score-box .value{ font-size: 22px; font-weight: 900; color: var(--acid-green); }
+
+  /* TABS */
+  .tabs{ background:#fff; border-left:1px solid var(--divider-gray); border-right:1px solid var(--divider-gray);
+    padding:14px 20px; display:flex; gap:8px; flex-wrap:wrap; }
+  .tab{ border:1.5px solid var(--divider-gray); border-radius:20px; padding:7px 14px; font-size:12px;
+    font-weight:bold; background:#fff; color:var(--charcoal); cursor:pointer; font-family:Arial, sans-serif;
+    display:inline-flex; align-items:center; gap:6px; }
+  .tab .chk{ display:inline-flex; }
+
+  /* RULE BANNER */
+  .rule-banner{ border-left:1px solid var(--divider-gray); border-right:1px solid var(--divider-gray);
+    border-bottom: 3px solid var(--divider-gray); padding:16px 24px; }
+  .rule-top{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:6px; }
+  .rule-badge{ display:inline-block; font-size:11px; font-weight:bold; color:#fff; padding:4px 10px;
+    border-radius:6px; letter-spacing:0.5px; }
+  .rule-title{ font-size:16px; font-weight:bold; color:var(--navy-dark); }
+  .rule-text{ font-size:13.5px; color:var(--charcoal); line-height:1.55; }
+
+  /* QUESTION CARD */
+  .card{ background:#fff; border-left:1px solid var(--divider-gray); border-right:1px solid var(--divider-gray);
+    border-bottom:1px solid var(--divider-gray); padding:28px 24px; }
+  .card-top{ display:flex; justify-content:space-between; font-size:12px; color:var(--muted);
+    font-weight:bold; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:22px; }
+  .question-block{ text-align:center; }
+  .q-label{ font-size:12px; color:var(--muted); font-weight:bold; letter-spacing:1px; text-transform:uppercase; margin-bottom:10px; }
+  .stimulus{ font-family: Georgia, serif; font-size:38px; font-weight:900; margin-bottom:26px; letter-spacing:0.5px;
+    word-spacing:2px; }
+
+  .answer-row{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-bottom:22px; }
+  .input-group{ text-align:left; }
+  .input-group label{ display:block; font-size:11px; font-weight:bold; color:var(--charcoal);
+    margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px; }
+  .input-group input{ width:150px; padding:11px 12px; font-size:16px; border:1.5px solid var(--divider-gray);
+    border-radius:8px; font-family:Arial, sans-serif; }
+  .input-group input:focus{ outline:none; border-color:var(--electric-blue); }
+
+  /* BUTTONS */
+  .btn-primary,.btn-accent,.btn-secondary{ border:none; border-radius:8px; padding:12px 26px; font-size:13px;
+    font-weight:bold; cursor:pointer; display:inline-flex; align-items:center; gap:6px; font-family:Arial, sans-serif; }
+  .btn-primary{ background:var(--navy-dark); color:#fff; }
+  .btn-primary:hover{ background:#101b26; }
+  .btn-accent{ background:var(--acid-green); color:#fff; }
+  .btn-accent:hover{ background:#6bab22; }
+  .btn-secondary{ background:#fff; color:var(--charcoal); border:1.5px solid var(--divider-gray); }
+  .btn-secondary:hover{ background:var(--light-gray); }
+
+  /* FEEDBACK */
+  .feedback{ margin-top:18px; padding:14px 16px; border-radius:8px; font-size:13.5px; text-align:left;
+    display:none; line-height:1.5; }
+  .feedback.show{ display:block; }
+  .feedback.correct{ background:#E9F7DA; border:1px solid #7DC229; color:#3D6B14; }
+  .feedback.incorrect{ background:#FCE8E6; border:1px solid #D9534F; color:#B02A20; }
+  .feedback-title{ display:flex; align-items:center; gap:6px; font-weight:bold; margin-bottom:4px; }
+  .card-actions{ margin-top:20px; }
+
+  /* SECTION COMPLETE */
+  .complete-block{ text-align:center; }
+  .complete-icon{ margin-bottom:10px; display:flex; justify-content:center; }
+  .complete-score{ font-size:36px; font-weight:900; color:var(--navy-dark); margin-bottom:4px; }
+  .complete-label{ font-size:13px; color:var(--muted); margin-bottom:24px; }
+  .complete-actions{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+  /* FOOTER */
+  .footer{ background: var(--navy-darkest); border-radius: 0 0 10px 10px; padding: 12px 24px; text-align: center; }
+  .footer span{ font-size: 11px; color: var(--muted); letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div>
+      <span class="eyebrow">cHemical REaxns &middot; UNIT 1 &middot; SCIENCE AND MATH</span>
+      <h1>Significant Figures Practice</h1>
+      <div class="sub">Counting &amp; applying significant figures — multiplication, division, and order of operations</div>
+    </div>
+    <div class="score-box">
+      <div class="label">Overall Score</div>
+      <div class="value" id="overallScore">0/0</div>
+    </div>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="rule-banner" id="ruleBanner">
+    <div class="rule-top">
+      <span class="rule-badge" id="ruleBadge"></span>
+      <span class="rule-title" id="ruleTitle"></span>
+    </div>
+    <div class="rule-text" id="ruleText"></div>
+  </div>
+
+  <div class="card" id="card">
+    <div id="questionView">
+      <div class="card-top">
+        <span id="progressText">QUESTION 1 OF 8</span>
+        <span id="runningScore">SCORE: 0/0</span>
+      </div>
+      <div class="question-block">
+        <div class="q-label" id="qLabel">Solve, then identify the sig figs</div>
+        <div class="stimulus" id="stimulus">4.1 + 5.32</div>
+        <div class="answer-row">
+          <div class="input-group">
+            <label for="answerInput">Answer</label>
+            <input type="text" id="answerInput" inputmode="decimal" placeholder="e.g. 9.4">
+          </div>
+          <div class="input-group">
+            <label for="sigfigInput"># of Sig Figs</label>
+            <input type="text" id="sigfigInput" inputmode="numeric" placeholder="e.g. 2">
+          </div>
+        </div>
+        <button class="btn-primary" id="checkBtn">Check Answer</button>
+        <div class="feedback" id="feedbackBox"></div>
+        <div class="card-actions hidden" id="nextWrap">
+          <button class="btn-primary" id="nextBtn">Next Question</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="completeView" class="complete-block hidden">
+      <div class="complete-icon" id="completeIcon"></div>
+      <div class="complete-score" id="completeScore">6/8</div>
+      <div class="complete-label">questions fully correct in this section</div>
+      <div class="complete-actions">
+        <button class="btn-secondary" id="retryBtn">Retry Section</button>
+        <button class="btn-accent" id="nextSectionBtn">Next Section</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>cHemical REaxns &nbsp;&middot;&nbsp; Chemistry Interactive Learning System &nbsp;&middot;&nbsp; Unit 1 &nbsp;&middot;&nbsp; Significant Figures</span>
+  </div>
+
+</div>
+
+<script>
+  /* ---------- ICON HELPERS (inline SVG, no external deps) ---------- */
+  function svgCheck(color){ return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="'+color+'" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>'; }
+  function svgX(color){ return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="'+color+'" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>'; }
+  function svgChevron(color){ return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="'+color+'" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>'; }
+  function svgRefresh(color){ return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="'+color+'" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>'; }
+  function svgAward(color){ return '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="'+color+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>'; }
+
+  /* ---------- SECTION CONFIG ---------- */
+  const SECTIONS = {
+    easy: {
+      label: "Easy",
+      badge: "EASY &middot; MULT/DIV",
+      title: "Multiplication &amp; Division Rule",
+      rule: "Round your answer to the same number of significant figures as the factor with the fewest — count digits, not decimal places.",
+      qLabel: "Solve, then identify the sig figs",
+      accentVar: "var(--acid-green)",
+      accentRgb: "125,194,41"
+    },
+    difficult: {
+      label: "Difficult",
+      badge: "DIFFICULT &middot; MULT/DIV",
+      title: "Same Rule — Tricky Zeros",
+      rule: "The multiplication/division rule still applies — but watch for leading zeros (never count), embedded zeros (always count), and trailing zeros after a decimal point (always count).",
+      qLabel: "Solve, then identify the sig figs",
+      accentVar: "var(--amber)",
+      accentRgb: "240,165,0"
+    },
+    four: {
+      label: "Four Functions",
+      badge: "MIXED &middot; ORDER OF OPERATIONS",
+      title: "Order of Operations + Sig Figs",
+      rule: "Every problem here has two operations. Do multiplication/division before addition/subtraction, round that inner step to the correct sig figs first, then finish the remaining step and round the final answer to the correct decimal place.",
+      qLabel: "Apply order of operations, then identify the sig figs",
+      accentVar: "var(--deep-teal)",
+      accentRgb: "26,107,114"
+    }
+  };
+  const SECTION_ORDER = ["easy","difficult","four"];
+
+  const EASY_TEMPLATES = ["d.d","dd.d","d.dd","dd.dd"];
+  const DIFFICULT_TEMPLATES = ["0.00d0","d0d.0","d.0d0","d00.d0","0.0d00"];
+
+  /* ---------- QUESTION GENERATION (sig fig logic) ---------- */
+  function randDigit(){ return String(1 + Math.floor(Math.random()*9)); }
+  function buildFromTemplate(tpl){
+    let s = "";
+    for(const ch of tpl){ s += (ch === "d") ? randDigit() : ch; }
+    return s;
+  }
+  function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+  function templatesFor(tier){ return tier === "easy" ? EASY_TEMPLATES : DIFFICULT_TEMPLATES; }
+  function randomTier(){ return Math.random() < 0.6 ? "easy" : "difficult"; }
+
+  function countSigFigs(str){
+    let started = false, count = 0;
+    for(const ch of str){
+      if(ch === "." || ch === "-") continue;
+      if(!started){ if(ch !== "0"){ started = true; count++; } }
+      else { count++; }
+    }
+    return count;
+  }
+  function countDecimalPlaces(str){
+    const idx = str.indexOf(".");
+    return idx === -1 ? 0 : str.length - idx - 1;
+  }
+  // Given a numeric value and a target sig fig count, return the number of
+  // decimal places needed to display that many sig figs in plain (non-exponential) form.
+  function sigFigsToDecimalPlaces(num, sig){
+    if(num === 0) return Math.max(sig - 1, 0);
+    const magnitude = Math.floor(Math.log10(Math.abs(num)));
+    let dp = sig - 1 - magnitude;
+    if(dp < 0) dp = 0;
+    return dp;
+  }
+
+  function makeMultDivQuestion(tier){
+    const templates = templatesFor(tier);
+    const str1 = buildFromTemplate(pick(templates));
+    const str2 = buildFromTemplate(pick(templates));
+    const num1 = parseFloat(str1), num2 = parseFloat(str2);
+    const op = Math.random() < 0.5 ? "×" : "÷";
+    const raw = op === "×" ? num1 * num2 : num1 / num2;
+    const sigNeeded = Math.min(countSigFigs(str1), countSigFigs(str2));
+    const correctAnswer = Number(raw.toPrecision(sigNeeded));
+    return { display: str1 + "  " + op + "  " + str2, correctAnswer, sigNeeded, checkType: "multdiv" };
+  }
+
+  // Three-operand, two-operator question requiring order of operations.
+  // Pattern C: (n1 op1 n2) op2 n3   where op1 is ×/÷ and op2 is +/−   e.g. "4.1 × 5.32 − 2.0"
+  // Pattern D: n1 op1 (n2 op2 n3)   where op1 is +/−  and op2 is ×/÷  e.g. "4.1 − 5.32 × 2.0"
+  function makeOrderOfOperationsQuestion(){
+    const pattern = Math.random() < 0.5 ? "C" : "D";
+    const str1 = buildFromTemplate(pick(templatesFor(randomTier())));
+    const str2 = buildFromTemplate(pick(templatesFor(randomTier())));
+    const str3 = buildFromTemplate(pick(templatesFor(randomTier())));
+    const n1 = parseFloat(str1), n2 = parseFloat(str2), n3 = parseFloat(str3);
+
+    let op1, op2, step1Raw, step1Sig, step1DP, step1Rounded, finalRaw, dpNeeded;
+
+    if(pattern === "C"){
+      op1 = Math.random() < 0.5 ? "×" : "÷";
+      op2 = Math.random() < 0.5 ? "+" : "−";
+      step1Raw = op1 === "×" ? n1 * n2 : n1 / n2;
+      step1Sig = Math.min(countSigFigs(str1), countSigFigs(str2));
+      step1DP = sigFigsToDecimalPlaces(step1Raw, step1Sig);
+      step1Rounded = Number(step1Raw.toFixed(step1DP));
+      finalRaw = op2 === "+" ? step1Rounded + n3 : step1Rounded - n3;
+      dpNeeded = Math.min(step1DP, countDecimalPlaces(str3));
+    } else {
+      op1 = Math.random() < 0.5 ? "+" : "−";
+      op2 = Math.random() < 0.5 ? "×" : "÷";
+      step1Raw = op2 === "×" ? n2 * n3 : n2 / n3;
+      step1Sig = Math.min(countSigFigs(str2), countSigFigs(str3));
+      step1DP = sigFigsToDecimalPlaces(step1Raw, step1Sig);
+      step1Rounded = Number(step1Raw.toFixed(step1DP));
+      finalRaw = op1 === "+" ? n1 + step1Rounded : n1 - step1Rounded;
+      dpNeeded = Math.min(countDecimalPlaces(str1), step1DP);
+    }
+
+    const roundedStr = finalRaw.toFixed(dpNeeded);
+    return {
+      display: str1 + "  " + op1 + "  " + str2 + "  " + op2 + "  " + str3,
+      correctAnswer: Number(roundedStr),
+      sigNeeded: countSigFigs(roundedStr),
+      checkType: "addsub",
+      decimalPlaces: dpNeeded
+    };
+  }
+
+  function generateQuestions(section, count){
+    const arr = [];
+    for(let i=0;i<count;i++){
+      if(section === "easy") arr.push(makeMultDivQuestion("easy"));
+      else if(section === "difficult") arr.push(makeMultDivQuestion("difficult"));
+      else arr.push(makeOrderOfOperationsQuestion());
+    }
+    return arr;
+  }
+
+  /* ---------- STATE ---------- */
+  let activeSection = "easy";
+  let questions = [];
+  let currentIndex = 0;
+  let sectionCorrect = 0;
+  let questionsPerSection = 8;
+  let answeredCurrent = false;
+  let overall = { correct: 0, total: 0 };
+  const completedSections = new Set();
+
+  /* ---------- RENDER: TABS ---------- */
+  function renderTabs(){
+    const tabsEl = document.getElementById("tabs");
+    tabsEl.innerHTML = "";
+    SECTION_ORDER.forEach(key => {
+      const cfg = SECTIONS[key];
+      const btn = document.createElement("button");
+      btn.className = "tab";
+      btn.dataset.section = key;
+      const isActive = key === activeSection;
+      btn.style.background = isActive ? cfg.accentVar : "#fff";
+      btn.style.color = isActive ? "#fff" : "var(--charcoal)";
+      btn.style.borderColor = isActive ? "transparent" : "var(--divider-gray)";
+      let inner = "";
+      if(completedSections.has(key)){
+        inner += '<span class="chk">' + svgCheck(isActive ? "#fff" : "#7DC229") + '</span>';
+      }
+      inner += cfg.label;
+      btn.innerHTML = inner;
+      btn.onclick = () => switchSection(key);
+      tabsEl.appendChild(btn);
+    });
+  }
+
+  /* ---------- RENDER: RULE BANNER ---------- */
+  function renderRuleBanner(){
+    const cfg = SECTIONS[activeSection];
+    const banner = document.getElementById("ruleBanner");
+    banner.style.background = "rgba(" + cfg.accentRgb + ",0.08)";
+    banner.style.borderBottomColor = "rgba(" + cfg.accentRgb + ",0.45)";
+    const badge = document.getElementById("ruleBadge");
+    badge.style.background = cfg.accentVar;
+    badge.innerHTML = cfg.badge;
+    document.getElementById("ruleTitle").innerHTML = cfg.title;
+    document.getElementById("ruleText").textContent = cfg.rule;
+  }
+
+  /* ---------- SECTION FLOW ---------- */
+  function switchSection(key){
+    activeSection = key;
+    questionsPerSection = 7 + Math.floor(Math.random() * 4); // 7-10
+    questions = generateQuestions(key, questionsPerSection);
+    currentIndex = 0;
+    sectionCorrect = 0;
+    renderTabs();
+    renderRuleBanner();
+    document.getElementById("completeView").classList.add("hidden");
+    document.getElementById("questionView").classList.remove("hidden");
+    loadQuestion();
+  }
+
+  function loadQuestion(){
+    answeredCurrent = false;
+    const q = questions[currentIndex];
+    const cfg = SECTIONS[activeSection];
+    document.getElementById("progressText").textContent = "QUESTION " + (currentIndex+1) + " OF " + questionsPerSection;
+    document.getElementById("runningScore").textContent = "SCORE: " + sectionCorrect + "/" + currentIndex;
+    document.getElementById("qLabel").textContent = cfg.qLabel;
+    const stim = document.getElementById("stimulus");
+    stim.textContent = q.display;
+    stim.style.color = cfg.accentVar;
+    document.getElementById("answerInput").value = "";
+    document.getElementById("sigfigInput").value = "";
+    document.getElementById("answerInput").disabled = false;
+    document.getElementById("sigfigInput").disabled = false;
+    const fb = document.getElementById("feedbackBox");
+    fb.classList.remove("show","correct","incorrect");
+    fb.innerHTML = "";
+    document.getElementById("checkBtn").classList.remove("hidden");
+    document.getElementById("nextWrap").classList.add("hidden");
+    document.getElementById("answerInput").focus();
+  }
+
+  function checkCurrentAnswer(){
+    if(answeredCurrent) return;
+    const q = questions[currentIndex];
+    const studentAnswerRaw = document.getElementById("answerInput").value.trim();
+    const studentSigRaw = document.getElementById("sigfigInput").value.trim();
+    const studentNum = parseFloat(studentAnswerRaw);
+    const studentSig = parseInt(studentSigRaw, 10);
+
+    let numCorrect = false;
+    if(!isNaN(studentNum)){
+      let tolerance;
+      if(q.checkType === "addsub") tolerance = 0.5 * Math.pow(10, -q.decimalPlaces) + 1e-9;
+      else tolerance = Math.max(Math.abs(q.correctAnswer) * 0.01, 1e-6);
+      numCorrect = Math.abs(studentNum - q.correctAnswer) <= tolerance;
+    }
+    const sigCorrect = (!isNaN(studentSig)) && studentSig === q.sigNeeded;
+    const bothCorrect = numCorrect && sigCorrect;
+
+    answeredCurrent = true;
+    if(bothCorrect) sectionCorrect++;
+    overall.total++;
+    if(bothCorrect) overall.correct++;
+    document.getElementById("overallScore").textContent = overall.correct + "/" + overall.total;
+    document.getElementById("runningScore").textContent = "SCORE: " + sectionCorrect + "/" + (currentIndex+1);
+
+    const fb = document.getElementById("feedbackBox");
+    fb.classList.add("show");
+    fb.classList.toggle("correct", bothCorrect);
+    fb.classList.toggle("incorrect", !bothCorrect);
+    const titleIcon = bothCorrect ? svgCheck("#3D6B14") : svgX("#B02A20");
+    const titleText = bothCorrect ? "Correct!" : "Not quite";
+    let body = "";
+    body += "<b>Answer:</b> " + (numCorrect ? "correct ✓" : ("should be " + q.correctAnswer)) + "<br>";
+    body += "<b>Sig Figs:</b> " + (sigCorrect ? "correct ✓" : ("should be " + q.sigNeeded));
+    fb.innerHTML = '<div class="feedback-title">' + titleIcon + '<span>' + titleText + '</span></div>' + body;
+
+    document.getElementById("answerInput").disabled = true;
+    document.getElementById("sigfigInput").disabled = true;
+    document.getElementById("checkBtn").classList.add("hidden");
+    document.getElementById("nextWrap").classList.remove("hidden");
+  }
+
+  function nextQuestion(){
+    currentIndex++;
+    if(currentIndex >= questions.length){
+      finishSection();
+    } else {
+      loadQuestion();
+    }
+  }
+
+  function finishSection(){
+    completedSections.add(activeSection);
+    renderTabs();
+    document.getElementById("questionView").classList.add("hidden");
+    document.getElementById("completeView").classList.remove("hidden");
+    document.getElementById("completeIcon").innerHTML = svgAward(SECTIONS[activeSection].accentVar);
+    document.getElementById("completeScore").textContent = sectionCorrect + "/" + questionsPerSection;
+    const nextBtn = document.getElementById("nextSectionBtn");
+    const idx = SECTION_ORDER.indexOf(activeSection);
+    const nextKey = SECTION_ORDER[(idx + 1) % SECTION_ORDER.length];
+    nextBtn.innerHTML = "Next Section: " + SECTIONS[nextKey].label + " " + svgChevron("#fff");
+    nextBtn.onclick = () => switchSection(nextKey);
+  }
+
+  document.getElementById("checkBtn").addEventListener("click", checkCurrentAnswer);
+  document.getElementById("nextBtn").addEventListener("click", nextQuestion);
+  document.getElementById("retryBtn").innerHTML = svgRefresh("#3C4550") + " <span>Retry Section</span>";
+  document.getElementById("retryBtn").addEventListener("click", () => switchSection(activeSection));
+
+  document.addEventListener("keydown", function(e){
+    if(e.key !== "Enter") return;
+    if(document.getElementById("questionView").classList.contains("hidden")) return;
+    if(!answeredCurrent) checkCurrentAnswer();
+    else nextQuestion();
+  });
+
+  /* ---------- INIT ---------- */
+  renderTabs();
+  switchSection("easy");
+</script>
+</body>
+</html>
