@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Density Practice · cHemical REaxns</title>
+<style>
+  :root{
+    --navy:#1A1F2E;
+    --navy-slate:#1A2B3C;
+    --blue:#1A73C8;
+    --green:#7DC229;
+    --charcoal:#3C4550;
+    --teal:#1A6B72;
+    --amber:#F0A500;
+    --light-blue:#F0F6FF;
+    --blue-border:#C8DEFF;
+    --light-gray:#F7F8FA;
+    --divider-gray:#E2E8F0;
+    --muted:#6A7D8E;
+    --white:#FFFFFF;
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:var(--light-gray);
+    color:var(--charcoal);
+    display:flex;
+    justify-content:center;
+    padding:24px 12px 60px;
+  }
+
+  .app{
+    width:100%;
+    max-width:720px;
+  }
+
+  /* Header */
+  header{
+    background:var(--navy);
+    border-radius:10px 10px 0 0;
+    padding:20px 24px;
+    position:relative;
+    overflow:hidden;
+  }
+  header::before{
+    content:"";
+    position:absolute;
+    top:0; left:0; right:0;
+    height:6px;
+    background:var(--green);
+  }
+  .eyebrow{
+    color:#8899AA;
+    font-size:11px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    margin:6px 0 4px;
+  }
+  h1{
+    color:var(--white);
+    font-size:24px;
+    margin:0;
+    letter-spacing:0.3px;
+  }
+  .subtitle{
+    color:var(--blue);
+    font-size:13px;
+    margin-top:6px;
+    font-weight:bold;
+  }
+
+  /* Goal bar */
+  .goal-bar{
+    background:var(--light-blue);
+    border:1px solid var(--blue-border);
+    border-top:none;
+    padding:12px 24px;
+    font-size:13px;
+    color:var(--navy-slate);
+  }
+  .goal-bar b{color:var(--blue);}
+
+  /* Progress */
+  .progress-wrap{
+    background:var(--white);
+    padding:14px 24px 4px;
+    border-left:1px solid var(--divider-gray);
+    border-right:1px solid var(--divider-gray);
+  }
+  .progress-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:6px;
+  }
+  .progress-track{
+    height:8px;
+    background:var(--divider-gray);
+    border-radius:4px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--green);
+    width:0%;
+    transition:width 0.35s ease;
+  }
+  .score-pill{
+    background:var(--navy-slate);
+    color:var(--white);
+    font-size:12px;
+    font-weight:bold;
+    padding:3px 10px;
+    border-radius:999px;
+  }
+
+  /* Card */
+  main{
+    background:var(--white);
+    border-left:1px solid var(--divider-gray);
+    border-right:1px solid var(--divider-gray);
+    border-bottom:1px solid var(--divider-gray);
+    border-radius:0 0 10px 10px;
+    padding:26px 24px 30px;
+    min-height:420px;
+  }
+
+  .type-pill{
+    display:inline-block;
+    font-size:10px;
+    font-weight:bold;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    padding:4px 10px;
+    border-radius:999px;
+    color:var(--white);
+    margin-bottom:14px;
+  }
+  .type-pill.concept{background:var(--blue);}
+  .type-pill.graph{background:var(--teal);}
+  .type-pill.floatsink{background:var(--amber); color:#2A1800;}
+
+  .question-text{
+    font-size:17px;
+    line-height:1.5;
+    color:var(--navy-slate);
+    margin:0 0 18px;
+    font-weight:bold;
+  }
+
+  .graph-box{
+    background:var(--light-gray);
+    border:1px solid var(--divider-gray);
+    border-radius:8px;
+    padding:12px;
+    margin-bottom:18px;
+    display:flex;
+    justify-content:center;
+  }
+
+  .legend{
+    display:flex;
+    gap:16px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-top:8px;
+    font-size:12px;
+    color:var(--charcoal);
+  }
+  .legend span{display:flex; align-items:center; gap:6px;}
+  .swatch{width:12px; height:12px; border-radius:3px; display:inline-block;}
+
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .options.two-col{
+    flex-direction:row;
+    gap:12px;
+  }
+  .opt-btn{
+    text-align:left;
+    background:var(--white);
+    border:2px solid var(--divider-gray);
+    border-radius:8px;
+    padding:13px 16px;
+    font-size:14px;
+    color:var(--navy-slate);
+    cursor:pointer;
+    font-family:inherit;
+    transition:border-color 0.15s ease, background 0.15s ease;
+    flex:1;
+  }
+  .opt-btn:hover:not(:disabled){
+    border-color:var(--blue);
+    background:var(--light-blue);
+  }
+  .opt-btn:disabled{cursor:default;}
+
+  .opt-btn.correct{
+    border-color:var(--green);
+    background:#F1F9E7;
+    color:#2C4C0E;
+  }
+  .opt-btn.incorrect{
+    border-color:#D64545;
+    background:#FBEAEA;
+    color:#7A1F1F;
+  }
+  .opt-btn.reveal{
+    border-color:var(--green);
+    background:#F1F9E7;
+    color:#2C4C0E;
+  }
+
+  .feedback{
+    margin-top:18px;
+    padding:14px 16px;
+    border-radius:8px;
+    font-size:13.5px;
+    line-height:1.55;
+    display:none;
+  }
+  .feedback.show{display:block;}
+  .feedback.correct{
+    background:#F1F9E7;
+    border:1px solid #C9E6A8;
+    color:#2C4C0E;
+  }
+  .feedback.incorrect{
+    background:#FBEAEA;
+    border:1px solid #F0C2C2;
+    color:#7A1F1F;
+  }
+  .feedback b{display:block; margin-bottom:4px; font-size:13px;}
+
+  .nav-row{
+    margin-top:22px;
+    display:flex;
+    justify-content:flex-end;
+  }
+  .next-btn{
+    background:var(--blue);
+    color:var(--white);
+    border:none;
+    padding:12px 26px;
+    border-radius:8px;
+    font-size:14px;
+    font-weight:bold;
+    cursor:pointer;
+    font-family:inherit;
+    display:none;
+  }
+  .next-btn.show{display:inline-block;}
+  .next-btn:hover{background:#155a9e;}
+
+  /* Results screen */
+  .results{
+    text-align:center;
+    padding:20px 10px 10px;
+  }
+  .results .big-score{
+    font-size:52px;
+    font-weight:bold;
+    color:var(--navy-slate);
+    margin:6px 0 2px;
+  }
+  .results .big-score span{color:var(--muted); font-size:26px;}
+  .results p{color:var(--muted); font-size:14px; margin:0 0 20px;}
+  .results .badge-msg{
+    display:inline-block;
+    background:var(--light-blue);
+    border:1px solid var(--blue-border);
+    color:var(--navy-slate);
+    font-size:14px;
+    font-weight:bold;
+    padding:10px 18px;
+    border-radius:8px;
+    margin-bottom:24px;
+  }
+  .restart-btn{
+    background:var(--green);
+    color:#1A2B0C;
+    border:none;
+    padding:12px 26px;
+    border-radius:8px;
+    font-size:14px;
+    font-weight:bold;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  .restart-btn:hover{background:#6bb01f;}
+
+  footer{
+    text-align:center;
+    font-size:11px;
+    color:var(--muted);
+    margin-top:16px;
+    letter-spacing:0.3px;
+  }
+
+  @media (max-width:480px){
+    .options.two-col{flex-direction:column;}
+    h1{font-size:20px;}
+    .question-text{font-size:15.5px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header>
+    <div class="eyebrow">cHemical REaxns · Unit 1 · Science &amp; Math</div>
+    <h1>Density Practice</h1>
+    <div class="subtitle">Conceptual reasoning · Graphs · Float &amp; Sink</div>
+  </header>
+
+  <div class="goal-bar">
+    <b>U1D</b> — I can PREDICT and/or MEASURE the common units for any measurement in chemistry, and understand the concept of density using the equation to calculate density, mass, or volume.
+  </div>
+
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-row">
+      <span id="progressLabel">Question 1 of 19</span>
+      <span class="score-pill" id="scorePill">Score: 0</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <main id="main"></main>
+
+  <footer>cHemical REaxns · Chemistry Interactive Learning System · 2026</footer>
+</div>
+
+<script>
+/* ---------------------------------------------------------
+   DENSITY PRACTICE TOOL
+   Types: concept (agree/disagree), graph (compare slopes),
+   floatsink (density vs 1 g/mL threshold)
+--------------------------------------------------------- */
+
+const COLORS = ["#1A73C8", "#7DC229", "#F0A500"]; // blue, green, amber for graph lines
+
+function svgGraph(lines, opts){
+  opts = opts || {};
+  const w = 300, h = 210;
+  const padL = 46, padB = 34, padT = 14, padR = 14;
+  const chartW = w - padL - padR;
+  const chartH = h - padT - padB;
+  const xMax = opts.xMax || 8;
+
+  let yMax = 0;
+  lines.forEach(l => { yMax = Math.max(yMax, l.density * xMax); });
+  yMax = yMax * 1.15;
+
+  const x0 = padL, y0 = h - padB;
+
+  function px(v){ return x0 + (v / xMax) * chartW; }
+  function py(v){ return y0 - (v / yMax) * chartH; }
+
+  let svg = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;">`;
+
+  // axes
+  svg += `<line x1="${x0}" y1="${padT}" x2="${x0}" y2="${y0}" stroke="#8899AA" stroke-width="1.5"/>`;
+  svg += `<line x1="${x0}" y1="${y0}" x2="${x0+chartW}" y2="${y0}" stroke="#8899AA" stroke-width="1.5"/>`;
+
+  // axis labels
+  svg += `<text x="${x0+chartW/2}" y="${h-6}" text-anchor="middle" font-size="10" fill="#6A7D8E" font-family="Arial">Volume (mL)</text>`;
+  svg += `<text x="12" y="${padT+chartH/2}" text-anchor="middle" font-size="10" fill="#6A7D8E" font-family="Arial" transform="rotate(-90 12 ${padT+chartH/2})">Mass (g)</text>`;
+
+  // lines
+  lines.forEach(l => {
+    const xEnd = xMax;
+    const yEnd = l.density * xMax;
+    const offset = l.offsetPx || 0; // visual-only nudge so overlapping parallel lines stay both visible
+    const y1 = py(0) - offset;
+    const y2 = py(yEnd) - offset;
+    svg += `<line x1="${px(0)}" y1="${y1}" x2="${px(xEnd)}" y2="${y2}" stroke="${l.color}" stroke-width="3" stroke-linecap="round"/>`;
+
+    // density label directly on the line (float/sink graphs only)
+    if(opts.showDensity){
+      const labelX = px(xEnd) - 4;
+      const labelY = y2 - 8;
+      svg += `<text x="${labelX}" y="${labelY}" text-anchor="end" font-size="11" font-weight="bold" fill="${l.color}" font-family="Arial">${l.density} g/mL</text>`;
+    }
+  });
+
+  // optional reference point marker
+  if(opts.point){
+    const px1 = px(opts.point.x), py1 = py(opts.point.y);
+    svg += `<circle cx="${px1}" cy="${py1}" r="5" fill="#1A2B3C" stroke="#fff" stroke-width="1.5"/>`;
+  }
+
+  // water density reference line (float/sink graphs only) — drawn as a true slope of 1.0 g/mL
+  if(opts.showWaterLine){
+    const wYEnd = py(1 * xMax);
+    const wY0 = py(0);
+    svg += `<line x1="${px(0)}" y1="${wY0}" x2="${px(xMax)}" y2="${wYEnd}" stroke="#1A2B3C" stroke-width="1.5" stroke-dasharray="5,4"/>`;
+    svg += `<text x="${px(xMax)-4}" y="${wYEnd-8}" text-anchor="end" font-size="9.5" font-weight="bold" fill="#1A2B3C" font-family="Arial">water — 1.0 g/mL</text>`;
+  }
+
+  svg += `</svg>`;
+  return svg;
+}
+
+function legendHTML(lines){
+  return `<div class="legend">` + lines.map(l =>
+    `<span><span class="swatch" style="background:${l.color}"></span>${l.label}</span>`
+  ).join("") + `</div>`;
+}
+
+/* ---------------- QUESTION BANK ---------------- */
+
+const questions = [
+
+  // ---- CONCEPTUAL AGREE/DISAGREE (8) ----
+  {
+    type:"concept",
+    statement:"Density can be determined by learning the mass of an object alone.",
+    correct:"disagree",
+    explanation:"Mass alone isn't enough. Density is mass divided by volume, so you need both measurements — an object's mass tells you nothing about how tightly its matter is packed until you compare it to how much space it takes up."
+  },
+  {
+    type:"concept",
+    statement:"A piece of aluminum is cut into two equal pieces. The resulting pieces each have a density that is ½ the original piece.",
+    correct:"disagree",
+    explanation:"Density is a property of the substance, not the sample size. Cutting the aluminum in half halves both the mass and the volume, so the ratio (density) stays exactly the same."
+  },
+  {
+    type:"concept",
+    statement:"You cannot determine a density for oxygen or any other gases.",
+    correct:"disagree",
+    explanation:"Gases absolutely have density — it's just much lower than solids or liquids because gas particles are spread far apart. Density = mass ÷ volume works for any state of matter."
+  },
+  {
+    type:"concept",
+    statement:"An egg floats in a salt water mix. The egg can be said to be less dense than the salt water.",
+    correct:"agree",
+    explanation:"Anything that floats is less dense than the fluid it's floating in. The egg floating means its density is lower than the density of the salt water around it."
+  },
+  {
+    type:"concept",
+    statement:"Only solids have a density.",
+    correct:"disagree",
+    explanation:"Every form of matter — solid, liquid, and gas — has a density, since density only requires that a sample have both mass and volume."
+  },
+  {
+    type:"concept",
+    statement:"One bar of gold is identical in size and shape to a bar of silver. These bars can be said to have the same density.",
+    correct:"disagree",
+    explanation:"Same size and shape means the same volume, but gold and silver are different substances with different densities. Same volume with different masses means different densities."
+  },
+  {
+    type:"concept",
+    statement:"The density of an irregular object, such as a rock, cannot be found.",
+    correct:"disagree",
+    explanation:"You can find the volume of an irregular object using water displacement, then divide its mass by that volume — the shape doesn't block the calculation."
+  },
+  {
+    type:"concept",
+    statement:"The density of air is dependent on temperature.",
+    correct:"agree",
+    explanation:"As air heats up, its particles spread farther apart, increasing volume without changing mass — which lowers density. That's exactly why hot air rises."
+  },
+
+  // ---- GRAPH COMPARISON (6) ----
+  {
+    type:"graph",
+    prompt:"Two substances are graphed as mass vs. volume. Which substance is more dense?",
+    lines:[
+      {label:"Substance A", density:3, color:COLORS[0]},
+      {label:"Substance B", density:7, color:COLORS[1]}
+    ],
+    options:["Substance A","Substance B","They are equally dense","Cannot be determined"],
+    correct:"Substance B",
+    explanation:"On a mass vs. volume graph, the steeper line has more mass packed into the same volume — that's a higher density. Substance B's line rises faster, so it's denser."
+  },
+  {
+    type:"graph",
+    prompt:"Which substance has the lowest density?",
+    lines:[
+      {label:"Substance A", density:6, color:COLORS[0]},
+      {label:"Substance B", density:2, color:COLORS[1]},
+      {label:"Substance C", density:4, color:COLORS[2]}
+    ],
+    options:["Substance A","Substance B","Substance C"],
+    correct:"Substance B",
+    explanation:"The shallowest slope belongs to the substance with the lowest density — Substance B gains the least mass per mL of volume."
+  },
+  {
+    type:"graph",
+    prompt:"Two lines on this graph are perfectly parallel — same slope, different starting samples. What does that tell you about those two substances?",
+    lines:[
+      {label:"Sample 1", density:4, color:COLORS[0]},
+      {label:"Sample 2", density:4, color:COLORS[1], offsetPx:10},
+      {label:"Sample 3", density:7, color:COLORS[2]}
+    ],
+    options:[
+      "Sample 1 and Sample 2 are likely the same substance",
+      "Sample 1 and Sample 3 are likely the same substance",
+      "All three are the same substance",
+      "Parallel lines tell you nothing about density"
+    ],
+    correct:"Sample 1 and Sample 2 are likely the same substance",
+    explanation:"Density is the slope of a mass vs. volume line. Two lines with identical slopes have identical densities — a strong sign they're the same substance, even if the sample sizes differ."
+  },
+  {
+    type:"graph",
+    prompt:"Substance A and Substance B are graphed below. Which statement is true?",
+    lines:[
+      {label:"Substance A", density:2, color:COLORS[0]},
+      {label:"Substance B", density:5, color:COLORS[1]}
+    ],
+    options:[
+      "For the same volume, Substance B has more mass",
+      "For the same volume, Substance A has more mass",
+      "For the same mass, Substance B takes up more space",
+      "Both substances always have the same mass"
+    ],
+    correct:"For the same volume, Substance B has more mass",
+    explanation:"At any given volume on the x-axis, the steeper line (Substance B) sits higher on the mass axis — meaning more mass is packed into that same amount of space."
+  },
+  {
+    type:"graph",
+    prompt:"A student says 'Substance A must be denser because its line is longer.' Is this reasoning correct?",
+    lines:[
+      {label:"Substance A", density:2, color:COLORS[0], },
+      {label:"Substance B", density:6, color:COLORS[1]}
+    ],
+    xMax:8,
+    options:[
+      "No — density depends on slope (steepness), not line length",
+      "Yes — a longer line always means more density",
+      "Yes, because it means more total mass was measured",
+      "It's impossible to tell without a ruler"
+    ],
+    correct:"No — density depends on slope (steepness), not line length",
+    explanation:"Line length just reflects how much data was collected — it says nothing about density. Density is read from the slope: how steeply mass increases as volume increases."
+  },
+  {
+    type:"graph",
+    prompt:"Rank the three substances from LEAST to MOST dense based on their slopes.",
+    lines:[
+      {label:"Substance A", density:5, color:COLORS[0]},
+      {label:"Substance B", density:1.5, color:COLORS[1]},
+      {label:"Substance C", density:3, color:COLORS[2]}
+    ],
+    options:[
+      "B, C, A",
+      "A, C, B",
+      "C, B, A",
+      "B, A, C"
+    ],
+    correct:"B, C, A",
+    explanation:"From shallowest to steepest slope: Substance B (1.5 g/mL) is least dense, Substance C (3 g/mL) is in the middle, and Substance A (5 g/mL) is the steepest and most dense."
+  },
+
+  // ---- FLOAT / SINK (5) ----
+  {
+    type:"floatsink",
+    prompt:"A block has a density of 2.7 g/cm³. Water has a density of 1.0 g/mL. If placed in water, will it float or sink?",
+    options:["Float","Sink"],
+    correct:"Sink",
+    explanation:"Water has a density of about 1 g/mL. Any object with a density greater than 1 g/mL — like this 2.7 g/cm³ block — is denser than water and will sink."
+  },
+  {
+    type:"floatsink",
+    prompt:"A chunk of cork has a density of 0.24 g/cm³. Water has a density of 1.0 g/mL. Will it float or sink in water?",
+    options:["Float","Sink"],
+    correct:"Float",
+    explanation:"Cork's density (0.24 g/cm³) is well below water's density (1 g/mL), so it displaces more weight in water than it has itself — it floats."
+  },
+  {
+    type:"floatsink",
+    prompt:"Read the graph below. This line represents a liquid's mass vs. volume. Water has a density of 1.0 g/mL. Based on its density, would a sample of this liquid float or sink if poured into a container of water (without mixing)?",
+    lines:[{label:"Unknown Liquid", density:0.7, color:COLORS[2]}],
+    xMax:8,
+    graphMode:true,
+    options:["Float on top","Sink to the bottom"],
+    correct:"Float on top",
+    explanation:"The line's slope (density) is about 0.7 g/mL — less than water's 1 g/mL. A less dense liquid layers on top of water rather than mixing or sinking, just like oil does."
+  },
+  {
+    type:"floatsink",
+    prompt:"An object has a density of exactly 1.0 g/mL — the same density as water. What happens when it's placed in water?",
+    options:[
+      "It floats fully above the surface",
+      "It sinks straight to the bottom",
+      "It neither floats nor sinks — it stays suspended",
+      "It's impossible to predict"
+    ],
+    correct:"It neither floats nor sinks — it stays suspended",
+    explanation:"An object with a density exactly equal to water's (1.0 g/mL) is neutrally buoyant — it won't rise or sink, it just hangs suspended within the water."
+  },
+  {
+    type:"floatsink",
+    prompt:"Water has a density of 1.0 g/mL. Read the graph below showing two substances. Which one would sink in water?",
+    lines:[
+      {label:"Substance A", density:0.6, color:COLORS[0]},
+      {label:"Substance B", density:1.4, color:COLORS[1]}
+    ],
+    xMax:8,
+    graphMode:true,
+    options:["Substance A","Substance B","Both would sink","Neither would sink"],
+    correct:"Substance B",
+    explanation:"Substance B's slope is about 1.4 g/mL, above water's 1 g/mL threshold, so it sinks. Substance A's slope (~0.6 g/mL) is below the threshold, so it would float instead."
+  }
+];
+
+/* ---------------- STATE & RENDER ---------------- */
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+const mainEl = document.getElementById("main");
+const progressLabel = document.getElementById("progressLabel");
+const progressFill = document.getElementById("progressFill");
+const scorePill = document.getElementById("scorePill");
+const progressWrap = document.getElementById("progressWrap");
+
+function updateProgress(){
+  progressLabel.textContent = `Question ${Math.min(current+1, questions.length)} of ${questions.length}`;
+  progressFill.style.width = `${(current/questions.length)*100}%`;
+  scorePill.textContent = `Score: ${score}`;
+}
+
+function typePillHTML(type){
+  if(type === "concept") return `<span class="type-pill concept">Conceptual · Agree or Disagree</span>`;
+  if(type === "graph") return `<span class="type-pill graph">Graph Reading</span>`;
+  return `<span class="type-pill floatsink">Float or Sink</span>`;
+}
+
+function renderQuestion(){
+  answered = false;
+  const q = questions[current];
+  updateProgress();
+
+  let html = typePillHTML(q.type);
+
+  if(q.type === "concept"){
+    html += `<p class="question-text">${q.statement}</p>`;
+    html += `<div class="options two-col" id="optWrap">
+      <button class="opt-btn" data-val="agree">AGREE</button>
+      <button class="opt-btn" data-val="disagree">DISAGREE</button>
+    </div>`;
+  } else if(q.type === "graph"){
+    html += `<p class="question-text">${q.prompt}</p>`;
+    html += `<div class="graph-box"><div>${svgGraph(q.lines, {xMax:q.xMax})}${legendHTML(q.lines)}</div></div>`;
+    html += `<div class="options" id="optWrap">` +
+      q.options.map(o => `<button class="opt-btn" data-val="${o.replace(/"/g,'&quot;')}">${o}</button>`).join("") +
+      `</div>`;
+  } else if(q.type === "floatsink"){
+    html += `<p class="question-text">${q.prompt}</p>`;
+    if(q.graphMode){
+      html += `<div class="graph-box"><div>${svgGraph(q.lines, {xMax:q.xMax, showDensity:true, showWaterLine:true})}${legendHTML(q.lines)}</div></div>`;
+    }
+    html += `<div class="options two-col" id="optWrap">` +
+      q.options.map(o => `<button class="opt-btn" data-val="${o.replace(/"/g,'&quot;')}">${o}</button>`).join("") +
+      `</div>`;
+  }
+
+  html += `<div class="feedback" id="feedback"></div>
+    <div class="nav-row"><button class="next-btn" id="nextBtn">Next Question →</button></div>`;
+
+  mainEl.innerHTML = html;
+
+  document.querySelectorAll("#optWrap .opt-btn").forEach(btn => {
+    btn.addEventListener("click", () => handleAnswer(btn, q));
+  });
+  document.getElementById("nextBtn").addEventListener("click", nextQuestion);
+}
+
+function handleAnswer(btn, q){
+  if(answered) return;
+  answered = true;
+
+  const chosen = btn.dataset.val;
+  const correctVal = q.type === "concept" ? q.correct : q.correct;
+  const isCorrect = chosen === correctVal;
+
+  if(isCorrect) score++;
+
+  document.querySelectorAll("#optWrap .opt-btn").forEach(b => {
+    b.disabled = true;
+    if(b.dataset.val === correctVal){
+      b.classList.add("correct");
+    } else if(b === btn && !isCorrect){
+      b.classList.add("incorrect");
+    }
+  });
+
+  const fb = document.getElementById("feedback");
+  fb.classList.add("show", isCorrect ? "correct" : "incorrect");
+  fb.innerHTML = `<b>${isCorrect ? "Correct!" : "Not quite."}</b>${q.explanation}`;
+
+  document.getElementById("nextBtn").classList.add("show");
+  updateProgress();
+}
+
+function nextQuestion(){
+  current++;
+  if(current >= questions.length){
+    renderResults();
+  } else {
+    renderQuestion();
+    mainEl.scrollIntoView({behavior:"smooth", block:"start"});
+  }
+}
+
+function renderResults(){
+  progressWrap.style.display = "none";
+  const pct = Math.round((score/questions.length)*100);
+  let msg;
+  if(pct >= 90) msg = "Outstanding — you've got density concepts locked in.";
+  else if(pct >= 75) msg = "Solid work — you understand density well.";
+  else if(pct >= 50) msg = "Good start — review the explanations and try again.";
+  else msg = "Density takes practice — revisit the lesson and try again.";
+
+  mainEl.innerHTML = `
+    <div class="results">
+      <div class="eyebrow" style="color:var(--muted);">Practice Complete</div>
+      <div class="big-score">${score}<span>/${questions.length}</span></div>
+      <p>${pct}% correct</p>
+      <div class="badge-msg">${msg}</div>
+      <div><button class="restart-btn" id="restartBtn">Try Again</button></div>
+    </div>`;
+  document.getElementById("restartBtn").addEventListener("click", () => {
+    current = 0; score = 0;
+    progressWrap.style.display = "block";
+    renderQuestion();
+  });
+}
+
+renderQuestion();
+</script>
+
+</body>
+</html>
